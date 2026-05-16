@@ -13,7 +13,6 @@
     --surface2: #1e2333;
     --border: #2a3045;
     --accent: #f0c040;
-    --accent2: #e07b30;
     --green: #3ecf8e;
     --red: #f05c5c;
     --text: #e8ecf4;
@@ -22,122 +21,39 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; font-size: 15px; min-height: 100vh; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Manrope', sans-serif;
-    font-size: 15px;
-    min-height: 100vh;
-  }
-
-  /* NAV */
-  .nav {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .nav-brand {
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.04em;
-  }
+  .nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 16px; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: 0.04em; }
   .nav-brand span { color: var(--muted); }
-  .nav-date {
-    font-size: 12px;
-    color: var(--muted);
-    font-family: 'Space Mono', monospace;
-  }
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+  .nav-date { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
+  .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); transition: background 0.3s; }
+  .sync-dot.ok { background: var(--green); }
+  .sync-dot.syncing { background: var(--accent); animation: pulse 1s infinite; }
+  .sync-dot.error { background: var(--red); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-  /* TABS */
-  .tabs {
-    display: flex;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 12px;
-    gap: 2px;
-    overflow-x: auto;
-  }
-  .tab {
-    padding: 10px 16px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--muted);
-    border: none;
-    background: none;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    white-space: nowrap;
-    transition: all 0.15s;
-  }
+  .tabs { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 12px; gap: 2px; overflow-x: auto; }
+  .tab { padding: 10px 16px; font-size: 13px; font-weight: 600; color: var(--muted); border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; }
   .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .tab:hover:not(.active) { color: var(--text); }
 
-  /* SECTIONS */
   .section { display: none; padding: 16px; }
   .section.active { display: block; }
 
-  /* CARDS */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 12px;
-  }
-  .card-title {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    margin-bottom: 12px;
-  }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+  .card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 12px; }
 
-  /* FORM */
   .form-grid { display: grid; gap: 10px; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   label { font-size: 12px; font-weight: 600; color: var(--muted); display: block; margin-bottom: 4px; }
-  input, select, textarea {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    font-family: 'Manrope', sans-serif;
-    font-size: 14px;
-    padding: 9px 12px;
-    outline: none;
-    transition: border-color 0.15s;
-  }
+  input, select, textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Manrope', sans-serif; font-size: 14px; padding: 9px 12px; outline: none; transition: border-color 0.15s; }
   input:focus, select:focus, textarea:focus { border-color: var(--accent); }
   select option { background: var(--surface2); }
   textarea { resize: vertical; min-height: 60px; }
 
-  /* BUTTONS */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 18px;
-    border-radius: 7px;
-    font-family: 'Manrope', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 18px; border-radius: 7px; font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; border: none; cursor: pointer; transition: all 0.15s; }
   .btn-primary { background: var(--accent); color: #0f1117; }
   .btn-primary:hover { background: #f7d060; }
   .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
@@ -147,252 +63,76 @@
   .btn-green { background: var(--green); color: #0f1117; }
   .btn-green:hover { background: #5de0a8; }
   .btn-full { width: 100%; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  /* STATS ROW */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 12px;
-    text-align: center;
-  }
-  .stat-val {
-    font-family: 'Space Mono', monospace;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--accent);
-    display: block;
-  }
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 12px; text-align: center; }
+  .stat-val { font-family: 'Space Mono', monospace; font-size: 18px; font-weight: 700; color: var(--accent); display: block; }
   .stat-val.green { color: var(--green); }
-  .stat-val.red { color: var(--red); }
   .stat-label { font-size: 11px; color: var(--muted); margin-top: 3px; }
 
-  /* TRIP LIST */
-  .trip-item {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 13px;
-    margin-bottom: 8px;
-    position: relative;
-  }
-  .trip-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 8px;
-  }
-  .trip-route {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
+  .trip-item { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px; margin-bottom: 8px; }
+  .trip-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .trip-route { font-size: 13px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .arrow { color: var(--accent); font-size: 12px; }
-  .trip-price {
-    font-family: 'Space Mono', monospace;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--accent);
-    white-space: nowrap;
-  }
-  .trip-meta {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    gap: 4px;
-  }
+  .trip-price { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .trip-meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
   .badge-pending { background: rgba(240,192,64,0.15); color: var(--accent); }
   .badge-paid { background: rgba(62,207,142,0.15); color: var(--green); }
   .trip-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
-  .wa-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 5px 10px;
-    border-radius: 6px;
-    background: rgba(37,211,102,0.15);
-    color: #25d366;
-    font-size: 12px;
-    font-weight: 700;
-    text-decoration: none;
-    border: 1px solid rgba(37,211,102,0.2);
-  }
+  .wa-btn { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 6px; background: rgba(37,211,102,0.15); color: #25d366; font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid rgba(37,211,102,0.2); }
   .trip-client { font-size: 13px; color: var(--text); font-weight: 600; }
   .trip-note { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 4px; }
 
-  /* ROUTE BAR */
-  .route-bar {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 14px;
-    margin-bottom: 12px;
-    overflow-x: auto;
-  }
-  .route-stops {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    min-width: max-content;
-    font-size: 12px;
-  }
-  .stop {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-  }
-  .stop-dot {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--surface);
-    border: 2px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--muted);
-  }
+  .route-bar { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 12px; overflow-x: auto; }
+  .route-stops { display: flex; align-items: center; gap: 6px; min-width: max-content; }
+  .stop { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .stop-dot { width: 28px; height: 28px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--muted); }
   .stop-dot.has-delivery { border-color: var(--accent); color: var(--accent); background: rgba(240,192,64,0.1); }
   .stop-dot.origin { border-color: var(--green); color: var(--green); background: rgba(62,207,142,0.1); }
   .stop-name { font-size: 10px; color: var(--muted); font-weight: 600; text-align: center; max-width: 55px; }
   .stop-line { flex: 1; height: 1px; background: var(--border); min-width: 16px; }
   .stop-line.has-delivery { background: var(--accent); }
 
-  /* EXPENSE */
   .expense-list { display: flex; flex-direction: column; gap: 8px; }
-  .expense-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 10px 13px;
-  }
+  .expense-item { display: flex; justify-content: space-between; align-items: center; background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 10px 13px; }
   .expense-desc { font-size: 13px; font-weight: 600; }
   .expense-amount { font-family: 'Space Mono', monospace; font-size: 14px; color: var(--red); font-weight: 700; }
 
-  /* EMPTY STATE */
-  .empty {
-    text-align: center;
-    padding: 32px 16px;
-    color: var(--muted);
-    font-size: 13px;
-  }
+  .empty { text-align: center; padding: 32px 16px; color: var(--muted); font-size: 13px; }
   .empty-icon { font-size: 32px; margin-bottom: 8px; }
-
-  /* DIVIDER */
   .divider { height: 1px; background: var(--border); margin: 12px 0; }
 
-  /* DATE FILTER */
-  .filter-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
+  .filter-row { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; flex-wrap: wrap; }
   .filter-row input[type=date] { flex: 1; min-width: 120px; }
   .filter-label { font-size: 12px; color: var(--muted); font-weight: 600; white-space: nowrap; }
 
-  /* TOOLTIP TIPS */
   .tips { display: flex; flex-direction: column; gap: 8px; }
-  .tip {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    padding: 12px;
-    background: var(--surface2);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 7px 7px 0;
-  }
-  .tip-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    color: var(--accent);
-    font-weight: 700;
-    min-width: 20px;
-  }
-  .tip-text { font-size: 13px; line-height: 1.5; color: var(--text); }
+  .tip { display: flex; gap: 10px; align-items: flex-start; padding: 12px; background: var(--surface2); border-left: 3px solid var(--accent); border-radius: 0 7px 7px 0; }
+  .tip-num { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 700; min-width: 20px; }
+  .tip-text { font-size: 13px; line-height: 1.5; }
 
-  /* MODAL */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 200;
-    align-items: flex-end;
-    justify-content: center;
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; align-items: flex-end; justify-content: center; }
   .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px 16px 0 0;
-    padding: 20px 16px;
-    width: 100%;
-    max-width: 480px;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px 16px 0 0; padding: 20px 16px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
   .modal-title { font-size: 16px; font-weight: 800; }
-  .close-btn { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; padding: 4px; }
+  .close-btn { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; }
 
-  /* PROFIT SECTION */
-  .profit-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-  }
+  .profit-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
   .profit-row:last-child { border-bottom: none; }
   .profit-row .val { font-family: 'Space Mono', monospace; font-weight: 700; }
-  .profit-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px;
-    background: rgba(62,207,142,0.08);
-    border: 1px solid rgba(62,207,142,0.2);
-    border-radius: 8px;
-    margin-top: 12px;
-  }
+  .profit-total { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: rgba(62,207,142,0.08); border: 1px solid rgba(62,207,142,0.2); border-radius: 8px; margin-top: 12px; }
   .profit-total .label { font-weight: 800; font-size: 15px; }
   .profit-total .val { font-family: 'Space Mono', monospace; font-size: 20px; font-weight: 700; color: var(--green); }
   .profit-total .val.negative { color: var(--red); }
+
+  .loading-screen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; z-index: 999; }
+  .loading-screen.hidden { display: none; }
+  .loader { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--muted); }
 
   @media (max-width: 360px) {
     .form-row { grid-template-columns: 1fr; }
@@ -402,178 +142,117 @@
 </head>
 <body>
 
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader"></div>
+  <div class="loading-text">Conectando...</div>
+</div>
+
 <nav class="nav">
   <div class="nav-brand">🚚 COMISIONES <span>ZONAL</span></div>
-  <div class="nav-date" id="navDate"></div>
+  <div class="nav-right">
+    <div class="sync-dot syncing" id="syncDot" title="Sincronización"></div>
+    <div class="nav-date" id="navDate"></div>
+  </div>
 </nav>
 
 <div class="tabs">
-  <button class="tab active" onclick="showTab('registrar')">➕ Registrar</button>
-  <button class="tab" onclick="showTab('viajes')">📦 Viajes</button>
-  <button class="tab" onclick="showTab('resumen')">💰 Resumen</button>
-  <button class="tab" onclick="showTab('ruta')">🗺️ Ruta</button>
-  <button class="tab" onclick="showTab('consejos')">💡 Tips</button>
+  <button class="tab active" onclick="showTab('registrar',this)">➕ Registrar</button>
+  <button class="tab" onclick="showTab('viajes',this)">📦 Viajes</button>
+  <button class="tab" onclick="showTab('resumen',this)">💰 Resumen</button>
+  <button class="tab" onclick="showTab('ruta',this)">🗺️ Ruta</button>
+  <button class="tab" onclick="showTab('consejos',this)">💡 Tips</button>
 </div>
 
-<!-- TAB: REGISTRAR -->
+<!-- REGISTRAR -->
 <div id="tab-registrar" class="section active">
   <div class="card">
     <div class="card-title">Nuevo Envío</div>
     <div class="form-grid">
-      <div>
-        <label>Fecha</label>
-        <input type="date" id="f-fecha">
-      </div>
-      <div>
-        <label>Cliente / Remitente</label>
-        <input type="text" id="f-cliente" placeholder="Nombre del cliente">
-      </div>
-      <div>
-        <label>WhatsApp (con 549...)</label>
-        <input type="tel" id="f-wa" placeholder="5493412345678">
-      </div>
+      <div><label>Fecha</label><input type="date" id="f-fecha"></div>
+      <div><label>Cliente / Remitente</label><input type="text" id="f-cliente" placeholder="Nombre del cliente"></div>
+      <div><label>WhatsApp (con 549...)</label><input type="tel" id="f-wa" placeholder="5493412345678"></div>
       <div class="form-row">
         <div>
           <label>Origen</label>
           <select id="f-origen">
             <option value="">Seleccionar</option>
-            <option>Las Varillas</option>
-            <option>Alicia</option>
-            <option>El Fortín</option>
-            <option>Landeta</option>
-            <option>Piamonte</option>
-            <option>Los Cardos</option>
-            <option>Las Parejas</option>
-            <option>El Trébol</option>
-            <option>Carlos Pellegrini</option>
-            <option>San Jorge</option>
-            <option value="__otro__">Otro...</option>
+            <option>Las Varillas</option><option>Alicia</option><option>El Fortín</option>
+            <option>Landeta</option><option>Piamonte</option><option>Los Cardos</option>
+            <option>Las Parejas</option><option>El Trébol</option><option>Carlos Pellegrini</option>
+            <option>San Jorge</option><option value="__otro__">Otro...</option>
           </select>
         </div>
         <div>
           <label>Destino</label>
           <select id="f-destino">
             <option value="">Seleccionar</option>
-            <option>Las Varillas</option>
-            <option>Alicia</option>
-            <option>El Fortín</option>
-            <option>Landeta</option>
-            <option>Piamonte</option>
-            <option>Los Cardos</option>
-            <option>Las Parejas</option>
-            <option>El Trébol</option>
-            <option>Carlos Pellegrini</option>
-            <option>San Jorge</option>
-            <option value="__otro__">Otro...</option>
+            <option>Las Varillas</option><option>Alicia</option><option>El Fortín</option>
+            <option>Landeta</option><option>Piamonte</option><option>Los Cardos</option>
+            <option>Las Parejas</option><option>El Trébol</option><option>Carlos Pellegrini</option>
+            <option>San Jorge</option><option value="__otro__">Otro...</option>
           </select>
         </div>
       </div>
-      <div id="origen-custom" style="display:none">
-        <label>Origen (otro)</label>
-        <input type="text" id="f-origen-custom" placeholder="Escribir localidad">
-      </div>
-      <div id="destino-custom" style="display:none">
-        <label>Destino (otro)</label>
-        <input type="text" id="f-destino-custom" placeholder="Escribir localidad">
-      </div>
-      <div>
-        <label>Dirección de Retiro</label>
-        <input type="text" id="f-dir-retiro" placeholder="Calle, número...">
-      </div>
-      <div>
-        <label>Dirección de Entrega</label>
-        <input type="text" id="f-dir-entrega" placeholder="Calle, número...">
-      </div>
+      <div id="origen-custom" style="display:none"><label>Origen (otro)</label><input type="text" id="f-origen-custom" placeholder="Escribir localidad"></div>
+      <div id="destino-custom" style="display:none"><label>Destino (otro)</label><input type="text" id="f-destino-custom" placeholder="Escribir localidad"></div>
+      <div><label>Dirección de Retiro</label><input type="text" id="f-dir-retiro" placeholder="Calle, número..."></div>
+      <div><label>Dirección de Entrega</label><input type="text" id="f-dir-entrega" placeholder="Calle, número..."></div>
       <div class="form-row">
-        <div>
-          <label>Precio ($)</label>
-          <input type="number" id="f-precio" placeholder="0" min="0" step="50">
-        </div>
-        <div>
-          <label>Estado</label>
-          <select id="f-estado">
-            <option value="pendiente">Pendiente</option>
-            <option value="cobrado">Cobrado</option>
-          </select>
+        <div><label>Precio ($)</label><input type="number" id="f-precio" placeholder="0" min="0" step="50"></div>
+        <div><label>Estado</label>
+          <select id="f-estado"><option value="pendiente">Pendiente</option><option value="cobrado">Cobrado</option></select>
         </div>
       </div>
-      <div>
-        <label>Nota (opcional)</label>
-        <textarea id="f-nota" placeholder="Descripción del paquete, referencia, etc."></textarea>
-      </div>
-      <button class="btn btn-primary btn-full" onclick="guardarViaje()">✓ Guardar Envío</button>
+      <div><label>Nota (opcional)</label><textarea id="f-nota" placeholder="Descripción del paquete..."></textarea></div>
+      <button class="btn btn-primary btn-full" id="btnGuardar" onclick="guardarViaje()">✓ Guardar Envío</button>
     </div>
   </div>
 </div>
 
-<!-- TAB: VIAJES -->
+<!-- VIAJES -->
 <div id="tab-viajes" class="section">
   <div class="filter-row">
-    <span class="filter-label">Filtrar por fecha:</span>
+    <span class="filter-label">Filtrar:</span>
     <input type="date" id="filtro-fecha" onchange="renderViajes()">
-    <button class="btn btn-ghost btn-sm" onclick="document.getElementById('filtro-fecha').value=''; renderViajes()">Todos</button>
+    <button class="btn btn-ghost btn-sm" onclick="document.getElementById('filtro-fecha').value='';renderViajes()">Todos</button>
   </div>
   <div id="viajes-list"></div>
 </div>
 
-<!-- TAB: RESUMEN -->
+<!-- RESUMEN -->
 <div id="tab-resumen" class="section">
   <div class="filter-row">
     <span class="filter-label">Fecha:</span>
     <input type="date" id="resumen-fecha" onchange="renderResumen()">
-    <button class="btn btn-ghost btn-sm" onclick="document.getElementById('resumen-fecha').value=''; renderResumen()">Global</button>
+    <button class="btn btn-ghost btn-sm" onclick="document.getElementById('resumen-fecha').value='';renderResumen()">Global</button>
   </div>
-
   <div class="stats-row">
-    <div class="stat-card">
-      <span class="stat-val" id="stat-total">0</span>
-      <div class="stat-label">Envíos</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-val green" id="stat-cobrado">$0</span>
-      <div class="stat-label">Cobrado</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-val" id="stat-pendiente">$0</span>
-      <div class="stat-label">Pendiente</div>
-    </div>
+    <div class="stat-card"><span class="stat-val" id="stat-total">0</span><div class="stat-label">Envíos</div></div>
+    <div class="stat-card"><span class="stat-val green" id="stat-cobrado">$0</span><div class="stat-label">Cobrado</div></div>
+    <div class="stat-card"><span class="stat-val" id="stat-pendiente">$0</span><div class="stat-label">Pendiente</div></div>
   </div>
-
-  <!-- Gastos -->
   <div class="card">
-    <div class="card-title">Gastos del día (combustible, etc.)</div>
+    <div class="card-title">Gastos del día</div>
     <div class="form-row" style="margin-bottom:10px">
-      <div>
-        <label>Descripción</label>
-        <input type="text" id="g-desc" placeholder="Combustible, nafta...">
-      </div>
-      <div>
-        <label>Monto ($)</label>
-        <input type="number" id="g-monto" placeholder="0" min="0" step="100">
-      </div>
+      <div><label>Descripción</label><input type="text" id="g-desc" placeholder="Combustible..."></div>
+      <div><label>Monto ($)</label><input type="number" id="g-monto" placeholder="0" min="0" step="100"></div>
     </div>
     <button class="btn btn-ghost btn-sm btn-full" onclick="agregarGasto()">+ Agregar gasto</button>
     <div class="divider"></div>
     <div class="expense-list" id="gastos-list"></div>
   </div>
-
-  <!-- Ganancia neta -->
   <div id="profit-card"></div>
 </div>
 
-<!-- TAB: RUTA -->
+<!-- RUTA -->
 <div id="tab-ruta" class="section">
   <div class="card">
     <div class="card-title">Ruta de Salida</div>
-    <div class="route-bar">
-      <div class="route-stops" id="route-salida"></div>
-    </div>
+    <div class="route-bar"><div class="route-stops" id="route-salida"></div></div>
   </div>
   <div class="card">
     <div class="card-title">Ruta de Regreso</div>
-    <div class="route-bar">
-      <div class="route-stops" id="route-regreso"></div>
-    </div>
+    <div class="route-bar"><div class="route-stops" id="route-regreso"></div></div>
   </div>
   <div class="card">
     <div class="card-title">Envíos por Localidad (hoy)</div>
@@ -581,24 +260,24 @@
   </div>
 </div>
 
-<!-- TAB: TIPS -->
+<!-- TIPS -->
 <div id="tab-consejos" class="section">
   <div class="card">
     <div class="card-title">Recomendaciones Estratégicas</div>
     <div class="tips">
-      <div class="tip"><span class="tip-num">1</span><span class="tip-text"><strong>WhatsApp:</strong> Usá siempre el formato internacional (549...) para abrir el chat con un toque. Mandá confirmación al terminar cada entrega para profesionalizar el servicio.</span></div>
-      <div class="tip"><span class="tip-num">2</span><span class="tip-text"><strong>Carga del vehículo:</strong> Cargá los paquetes en orden inverso a la entrega. Los de Las Parejas van al fondo, los de Alicia y El Fortín cerca de la puerta.</span></div>
-      <div class="tip"><span class="tip-num">3</span><span class="tip-text"><strong>Control financiero:</strong> Anotá los gastos de combustible en el Resumen para calcular tu ganancia neta real al final de la jornada.</span></div>
-      <div class="tip"><span class="tip-num">4</span><span class="tip-text"><strong>Cobros pendientes:</strong> Revisá la pestaña Viajes al final del día y marcá como cobrado todo lo que hayas recibido.</span></div>
+      <div class="tip"><span class="tip-num">1</span><span class="tip-text"><strong>WhatsApp:</strong> Usá el formato internacional (549...) para abrir el chat con un toque. Confirmá cada entrega por mensaje.</span></div>
+      <div class="tip"><span class="tip-num">2</span><span class="tip-text"><strong>Carga del vehículo:</strong> Cargá en orden inverso. Los de Las Parejas al fondo, los de Alicia cerca de la puerta.</span></div>
+      <div class="tip"><span class="tip-num">3</span><span class="tip-text"><strong>Control financiero:</strong> Anotá el combustible en Resumen para ver tu ganancia neta real.</span></div>
+      <div class="tip"><span class="tip-num">4</span><span class="tip-text"><strong>Cobros:</strong> Al final del día marcá como cobrado todo lo recibido.</span></div>
     </div>
   </div>
-  <div class="card" style="margin-top:0">
+  <div class="card">
     <div class="card-title">Zona de datos</div>
-    <button class="btn btn-danger btn-full" onclick="confirmarBorrar()" style="margin-top:4px">🗑 Borrar todos los datos</button>
+    <button class="btn btn-danger btn-full" onclick="confirmarBorrar()">🗑 Borrar todos los datos</button>
   </div>
 </div>
 
-<!-- MODAL EDITAR -->
+<!-- MODAL -->
 <div class="modal-overlay" id="editModal">
   <div class="modal">
     <div class="modal-header">
@@ -607,375 +286,283 @@
     </div>
     <div class="form-grid">
       <input type="hidden" id="e-id">
-      <div>
-        <label>Cliente</label>
-        <input type="text" id="e-cliente">
+      <div><label>Cliente</label><input type="text" id="e-cliente"></div>
+      <div><label>WhatsApp</label><input type="tel" id="e-wa"></div>
+      <div><label>Precio ($)</label><input type="number" id="e-precio"></div>
+      <div><label>Estado</label>
+        <select id="e-estado"><option value="pendiente">Pendiente</option><option value="cobrado">Cobrado</option></select>
       </div>
-      <div>
-        <label>WhatsApp</label>
-        <input type="tel" id="e-wa">
-      </div>
-      <div>
-        <label>Precio ($)</label>
-        <input type="number" id="e-precio">
-      </div>
-      <div>
-        <label>Estado</label>
-        <select id="e-estado">
-          <option value="pendiente">Pendiente</option>
-          <option value="cobrado">Cobrado</option>
-        </select>
-      </div>
-      <div>
-        <label>Nota</label>
-        <textarea id="e-nota"></textarea>
-      </div>
+      <div><label>Nota</label><textarea id="e-nota"></textarea></div>
       <button class="btn btn-primary btn-full" onclick="guardarEdicion()">✓ Guardar cambios</button>
     </div>
   </div>
 </div>
 
-<script>
-// ─── DATA ────────────────────────────────────────────────────
-let viajes = JSON.parse(localStorage.getItem('cz_viajes') || '[]');
-let gastos = JSON.parse(localStorage.getItem('cz_gastos') || '[]');
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, doc,
+    updateDoc, deleteDoc, onSnapshot, query, orderBy, getDocs
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-function save() {
-  localStorage.setItem('cz_viajes', JSON.stringify(viajes));
-  localStorage.setItem('cz_gastos', JSON.stringify(gastos));
-}
+  const app = initializeApp({
+    apiKey: "AIzaSyAY4lDeb-cMLrUYLiwMfhR1T1vVgboqQbI",
+    authDomain: "comisionexpress-5925e.firebaseapp.com",
+    projectId: "comisionexpress-5925e",
+    storageBucket: "comisionexpress-5925e.firebasestorage.app",
+    messagingSenderId: "146588505417",
+    appId: "1:146588505417:web:858da11905a7d3155d3698"
+  });
+  const db = getFirestore(app);
 
-// ─── RUTAS ───────────────────────────────────────────────────
-const rutaSalida = ['Las Varillas','Alicia','El Fortín','Landeta','Piamonte','Los Cardos','Las Parejas'];
-const rutaRegreso = ['El Trébol','Carlos Pellegrini','San Jorge','Las Varillas'];
+  let viajes = [];
+  let gastos = [];
 
-// ─── FECHA ───────────────────────────────────────────────────
-function hoy() {
-  return new Date().toISOString().split('T')[0];
-}
-function formatFecha(f) {
-  const [y,m,d] = f.split('-');
-  return `${d}/${m}/${y}`;
-}
+  const rutaSalida  = ['Las Varillas','Alicia','El Fortín','Landeta','Piamonte','Los Cardos','Las Parejas'];
+  const rutaRegreso = ['El Trébol','Carlos Pellegrini','San Jorge','Las Varillas'];
 
-// ─── INIT ─────────────────────────────────────────────────────
-document.getElementById('navDate').textContent = new Date().toLocaleDateString('es-AR',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();
-document.getElementById('f-fecha').value = hoy();
-document.getElementById('resumen-fecha').value = hoy();
-document.getElementById('filtro-fecha').value = hoy();
+  function hoy() { return new Date().toISOString().split('T')[0]; }
+  function formatFecha(f) { const [y,m,d] = f.split('-'); return `${d}/${m}/${y}`; }
+  function setSyncState(s) { document.getElementById('syncDot').className = 'sync-dot ' + s; }
 
-// Handle "Otro" in selects
-document.getElementById('f-origen').addEventListener('change', function() {
-  document.getElementById('origen-custom').style.display = this.value === '__otro__' ? 'block' : 'none';
-});
-document.getElementById('f-destino').addEventListener('change', function() {
-  document.getElementById('destino-custom').style.display = this.value === '__otro__' ? 'block' : 'none';
-});
-
-function getOrigen() {
-  const sel = document.getElementById('f-origen').value;
-  return sel === '__otro__' ? document.getElementById('f-origen-custom').value.trim() : sel;
-}
-function getDestino() {
-  const sel = document.getElementById('f-destino').value;
-  return sel === '__otro__' ? document.getElementById('f-destino-custom').value.trim() : sel;
-}
-
-// ─── TABS ─────────────────────────────────────────────────────
-function showTab(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  event.target.classList.add('active');
-  if (id === 'viajes') renderViajes();
-  if (id === 'resumen') renderResumen();
-  if (id === 'ruta') renderRuta();
-}
-
-// ─── GUARDAR VIAJE ────────────────────────────────────────────
-function guardarViaje() {
-  const v = {
-    id: Date.now(),
-    fecha: document.getElementById('f-fecha').value,
-    cliente: document.getElementById('f-cliente').value.trim(),
-    wa: document.getElementById('f-wa').value.trim(),
-    origen: getOrigen(),
-    destino: getDestino(),
-    dirRetiro: document.getElementById('f-dir-retiro').value.trim(),
-    dirEntrega: document.getElementById('f-dir-entrega').value.trim(),
-    precio: parseFloat(document.getElementById('f-precio').value) || 0,
-    estado: document.getElementById('f-estado').value,
-    nota: document.getElementById('f-nota').value.trim(),
-  };
-  if (!v.cliente || !v.origen || !v.destino || !v.precio) {
-    alert('Completá al menos: Cliente, Origen, Destino y Precio.');
-    return;
-  }
-  viajes.push(v);
-  save();
-  limpiarForm();
-  showTabDirect('viajes');
-  renderViajes();
-}
-
-function limpiarForm() {
-  ['f-cliente','f-wa','f-dir-retiro','f-dir-entrega','f-precio','f-nota'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('f-origen').value = '';
-  document.getElementById('f-destino').value = '';
-  document.getElementById('f-estado').value = 'pendiente';
-  document.getElementById('origen-custom').style.display = 'none';
-  document.getElementById('destino-custom').style.display = 'none';
+  // Init
+  document.getElementById('navDate').textContent = new Date().toLocaleDateString('es-AR',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();
   document.getElementById('f-fecha').value = hoy();
-}
+  document.getElementById('resumen-fecha').value = hoy();
+  document.getElementById('filtro-fecha').value = hoy();
 
-function showTabDirect(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  const tabs = document.querySelectorAll('.tab');
-  const map = {registrar:0, viajes:1, resumen:2, ruta:3, consejos:4};
-  if (map[id] !== undefined) tabs[map[id]].classList.add('active');
-}
+  document.getElementById('f-origen').addEventListener('change', function() {
+    document.getElementById('origen-custom').style.display = this.value==='__otro__'?'block':'none';
+  });
+  document.getElementById('f-destino').addEventListener('change', function() {
+    document.getElementById('destino-custom').style.display = this.value==='__otro__'?'block':'none';
+  });
 
-// ─── RENDER VIAJES ────────────────────────────────────────────
-function renderViajes() {
-  const filtro = document.getElementById('filtro-fecha').value;
-  let lista = filtro ? viajes.filter(v => v.fecha === filtro) : [...viajes];
-  lista.sort((a,b) => b.id - a.id);
-  const el = document.getElementById('viajes-list');
-  if (!lista.length) {
-    el.innerHTML = `<div class="empty"><div class="empty-icon">📦</div>${filtro ? 'Sin envíos en esta fecha.' : 'No hay envíos registrados.'}</div>`;
-    return;
+  function getOrigen() {
+    const s = document.getElementById('f-origen').value;
+    return s==='__otro__' ? document.getElementById('f-origen-custom').value.trim() : s;
   }
-  el.innerHTML = lista.map(v => {
-    const waLink = v.wa ? `<a class="wa-btn" href="https://wa.me/${v.wa.replace(/\D/g,'')}?text=Hola%20${encodeURIComponent(v.cliente)}%2C%20tu%20envío%20fue%20entregado%20✓" target="_blank">💬 WhatsApp</a>` : '';
-    const badge = v.estado === 'cobrado'
-      ? `<span class="badge badge-paid">✓ Cobrado</span>`
-      : `<span class="badge badge-pending">⏳ Pendiente</span>`;
-    return `
-    <div class="trip-item" id="vi-${v.id}">
-      <div class="trip-header">
-        <div>
-          <div class="trip-client">${v.cliente}</div>
-          <div class="trip-route">
-            <span>${v.origen}</span><span class="arrow">→</span><span>${v.destino}</span>
+  function getDestino() {
+    const s = document.getElementById('f-destino').value;
+    return s==='__otro__' ? document.getElementById('f-destino-custom').value.trim() : s;
+  }
+
+  // Tabs
+  window.showTab = (id, btn) => {
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('tab-'+id).classList.add('active');
+    if(btn) btn.classList.add('active');
+    if(id==='ruta') renderRuta();
+  };
+
+  // Listeners en tiempo real
+  onSnapshot(query(collection(db,'viajes'), orderBy('id','desc')), snap => {
+    viajes = snap.docs.map(d=>({...d.data(), _docId:d.id}));
+    renderViajes(); renderResumen(); renderRuta();
+    setSyncState('ok');
+    document.getElementById('loadingScreen').classList.add('hidden');
+  }, () => setSyncState('error'));
+
+  onSnapshot(query(collection(db,'gastos'), orderBy('id','desc')), snap => {
+    gastos = snap.docs.map(d=>({...d.data(), _docId:d.id}));
+    renderResumen();
+  });
+
+  // Guardar viaje
+  window.guardarViaje = async () => {
+    const v = {
+      id: Date.now(),
+      fecha: document.getElementById('f-fecha').value,
+      cliente: document.getElementById('f-cliente').value.trim(),
+      wa: document.getElementById('f-wa').value.trim(),
+      origen: getOrigen(),
+      destino: getDestino(),
+      dirRetiro: document.getElementById('f-dir-retiro').value.trim(),
+      dirEntrega: document.getElementById('f-dir-entrega').value.trim(),
+      precio: parseFloat(document.getElementById('f-precio').value)||0,
+      estado: document.getElementById('f-estado').value,
+      nota: document.getElementById('f-nota').value.trim(),
+    };
+    if(!v.cliente||!v.origen||!v.destino||!v.precio){ alert('Completá: Cliente, Origen, Destino y Precio.'); return; }
+    const btn = document.getElementById('btnGuardar');
+    btn.disabled=true; btn.textContent='Guardando...'; setSyncState('syncing');
+    try {
+      await addDoc(collection(db,'viajes'), v);
+      // limpiar
+      ['f-cliente','f-wa','f-dir-retiro','f-dir-entrega','f-precio','f-nota'].forEach(id=>document.getElementById(id).value='');
+      document.getElementById('f-origen').value='';
+      document.getElementById('f-destino').value='';
+      document.getElementById('f-estado').value='pendiente';
+      document.getElementById('origen-custom').style.display='none';
+      document.getElementById('destino-custom').style.display='none';
+      document.getElementById('f-fecha').value=hoy();
+      // ir a viajes
+      window.showTab('viajes', document.querySelectorAll('.tab')[1]);
+    } catch(e) { alert('Error al guardar. Verificá tu conexión.'); setSyncState('error'); }
+    btn.disabled=false; btn.textContent='✓ Guardar Envío';
+  };
+
+  // Render viajes
+  function renderViajes() {
+    const filtro = document.getElementById('filtro-fecha').value;
+    let lista = filtro ? viajes.filter(v=>v.fecha===filtro) : [...viajes];
+    lista.sort((a,b)=>b.id-a.id);
+    const el = document.getElementById('viajes-list');
+    if(!lista.length){
+      el.innerHTML=`<div class="empty"><div class="empty-icon">📦</div>${filtro?'Sin envíos en esta fecha.':'No hay envíos registrados.'}</div>`;
+      return;
+    }
+    el.innerHTML = lista.map(v=>{
+      const waLink = v.wa ? `<a class="wa-btn" href="https://wa.me/${v.wa.replace(/\D/g,'')}?text=Hola%20${encodeURIComponent(v.cliente)}%2C%20tu%20env%C3%ADo%20fue%20entregado%20✓" target="_blank">💬 WhatsApp</a>` : '';
+      const badge = v.estado==='cobrado' ? `<span class="badge badge-paid">✓ Cobrado</span>` : `<span class="badge badge-pending">⏳ Pendiente</span>`;
+      return `<div class="trip-item">
+        <div class="trip-header">
+          <div>
+            <div class="trip-client">${v.cliente}</div>
+            <div class="trip-route"><span>${v.origen}</span><span class="arrow">→</span><span>${v.destino}</span></div>
           </div>
+          <div class="trip-price">$${v.precio.toLocaleString('es-AR')}</div>
         </div>
-        <div class="trip-price">$${v.precio.toLocaleString('es-AR')}</div>
-      </div>
-      <div class="trip-meta">
-        <span>📅 ${formatFecha(v.fecha)}</span>
-        ${v.dirRetiro ? `<span>📍 ${v.dirRetiro}</span>` : ''}
-        ${v.dirEntrega ? `<span>🏠 ${v.dirEntrega}</span>` : ''}
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        ${badge}
-        ${v.nota ? `<span class="trip-note">📝 ${v.nota}</span>` : ''}
-      </div>
-      <div class="trip-actions">
-        ${waLink}
-        ${v.estado === 'pendiente'
-          ? `<button class="btn btn-green btn-sm" onclick="marcarCobrado(${v.id})">✓ Marcar cobrado</button>`
-          : `<button class="btn btn-ghost btn-sm" onclick="marcarPendiente(${v.id})">↩ Pendiente</button>`}
-        <button class="btn btn-ghost btn-sm" onclick="abrirEdicion(${v.id})">✏️ Editar</button>
-        <button class="btn btn-danger" onclick="eliminarViaje(${v.id})">🗑</button>
-      </div>
-    </div>`;
-  }).join('');
-}
+        <div class="trip-meta">
+          <span>📅 ${formatFecha(v.fecha)}</span>
+          ${v.dirRetiro?`<span>📍 ${v.dirRetiro}</span>`:''}
+          ${v.dirEntrega?`<span>🏠 ${v.dirEntrega}</span>`:''}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          ${badge}
+          ${v.nota?`<span class="trip-note">📝 ${v.nota}</span>`:''}
+        </div>
+        <div class="trip-actions">
+          ${waLink}
+          ${v.estado==='pendiente'
+            ?`<button class="btn btn-green btn-sm" onclick="marcarCobrado('${v._docId}')">✓ Cobrado</button>`
+            :`<button class="btn btn-ghost btn-sm" onclick="marcarPendiente('${v._docId}')">↩ Pendiente</button>`}
+          <button class="btn btn-ghost btn-sm" onclick="abrirEdicion('${v._docId}')">✏️ Editar</button>
+          <button class="btn btn-danger" onclick="eliminarViaje('${v._docId}')">🗑</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
 
-function marcarCobrado(id) {
-  viajes = viajes.map(v => v.id === id ? {...v, estado: 'cobrado'} : v);
-  save(); renderViajes(); renderResumen();
-}
-function marcarPendiente(id) {
-  viajes = viajes.map(v => v.id === id ? {...v, estado: 'pendiente'} : v);
-  save(); renderViajes(); renderResumen();
-}
-function eliminarViaje(id) {
-  if (!confirm('¿Eliminar este envío?')) return;
-  viajes = viajes.filter(v => v.id !== id);
-  save(); renderViajes(); renderResumen();
-}
+  window.marcarCobrado  = async id => { setSyncState('syncing'); await updateDoc(doc(db,'viajes',id),{estado:'cobrado'}); };
+  window.marcarPendiente = async id => { setSyncState('syncing'); await updateDoc(doc(db,'viajes',id),{estado:'pendiente'}); };
+  window.eliminarViaje  = async id => {
+    if(!confirm('¿Eliminar este envío?')) return;
+    setSyncState('syncing'); await deleteDoc(doc(db,'viajes',id));
+  };
 
-// ─── EDICION ──────────────────────────────────────────────────
-function abrirEdicion(id) {
-  const v = viajes.find(x => x.id === id);
-  if (!v) return;
-  document.getElementById('e-id').value = id;
-  document.getElementById('e-cliente').value = v.cliente;
-  document.getElementById('e-wa').value = v.wa || '';
-  document.getElementById('e-precio').value = v.precio;
-  document.getElementById('e-estado').value = v.estado;
-  document.getElementById('e-nota').value = v.nota || '';
-  document.getElementById('editModal').classList.add('open');
-}
-function cerrarModal() {
-  document.getElementById('editModal').classList.remove('open');
-}
-function guardarEdicion() {
-  const id = parseInt(document.getElementById('e-id').value);
-  viajes = viajes.map(v => v.id === id ? {
-    ...v,
-    cliente: document.getElementById('e-cliente').value.trim(),
-    wa: document.getElementById('e-wa').value.trim(),
-    precio: parseFloat(document.getElementById('e-precio').value) || v.precio,
-    estado: document.getElementById('e-estado').value,
-    nota: document.getElementById('e-nota').value.trim(),
-  } : v);
-  save(); cerrarModal(); renderViajes(); renderResumen();
-}
-
-// ─── GASTOS ───────────────────────────────────────────────────
-function agregarGasto() {
-  const desc = document.getElementById('g-desc').value.trim();
-  const monto = parseFloat(document.getElementById('g-monto').value) || 0;
-  if (!desc || !monto) { alert('Completá descripción y monto.'); return; }
-  const fecha = document.getElementById('resumen-fecha').value || hoy();
-  gastos.push({ id: Date.now(), fecha, desc, monto });
-  save();
-  document.getElementById('g-desc').value = '';
-  document.getElementById('g-monto').value = '';
-  renderResumen();
-}
-function eliminarGasto(id) {
-  gastos = gastos.filter(g => g.id !== id);
-  save(); renderResumen();
-}
-
-// ─── RESUMEN ──────────────────────────────────────────────────
-function renderResumen() {
-  const filtro = document.getElementById('resumen-fecha').value;
-  const vFiltrados = filtro ? viajes.filter(v => v.fecha === filtro) : viajes;
-  const gFiltrados = filtro ? gastos.filter(g => g.fecha === filtro) : gastos;
-
-  const total = vFiltrados.length;
-  const cobrado = vFiltrados.filter(v => v.estado === 'cobrado').reduce((s,v) => s + v.precio, 0);
-  const pendiente = vFiltrados.filter(v => v.estado === 'pendiente').reduce((s,v) => s + v.precio, 0);
-  const totalGastos = gFiltrados.reduce((s,g) => s + g.monto, 0);
-  const neta = cobrado - totalGastos;
-
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-cobrado').textContent = '$' + cobrado.toLocaleString('es-AR');
-  document.getElementById('stat-pendiente').textContent = '$' + pendiente.toLocaleString('es-AR');
+  // Edición
+  window.abrirEdicion = id => {
+    const v = viajes.find(x=>x._docId===id); if(!v) return;
+    document.getElementById('e-id').value=id;
+    document.getElementById('e-cliente').value=v.cliente;
+    document.getElementById('e-wa').value=v.wa||'';
+    document.getElementById('e-precio').value=v.precio;
+    document.getElementById('e-estado').value=v.estado;
+    document.getElementById('e-nota').value=v.nota||'';
+    document.getElementById('editModal').classList.add('open');
+  };
+  window.cerrarModal = () => document.getElementById('editModal').classList.remove('open');
+  window.guardarEdicion = async () => {
+    const id = document.getElementById('e-id').value;
+    setSyncState('syncing');
+    await updateDoc(doc(db,'viajes',id),{
+      cliente: document.getElementById('e-cliente').value.trim(),
+      wa: document.getElementById('e-wa').value.trim(),
+      precio: parseFloat(document.getElementById('e-precio').value)||0,
+      estado: document.getElementById('e-estado').value,
+      nota: document.getElementById('e-nota').value.trim(),
+    });
+    cerrarModal();
+  };
 
   // Gastos
-  const gl = document.getElementById('gastos-list');
-  if (!gFiltrados.length) {
-    gl.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px">Sin gastos registrados</div>';
-  } else {
-    gl.innerHTML = gFiltrados.map(g => `
-      <div class="expense-item">
-        <div>
-          <div class="expense-desc">${g.desc}</div>
-          <div style="font-size:11px;color:var(--muted)">${formatFecha(g.fecha)}</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="expense-amount">-$${g.monto.toLocaleString('es-AR')}</span>
-          <button class="btn btn-danger" onclick="eliminarGasto(${g.id})" style="padding:4px 8px">🗑</button>
-        </div>
-      </div>`).join('');
-  }
+  window.agregarGasto = async () => {
+    const desc = document.getElementById('g-desc').value.trim();
+    const monto = parseFloat(document.getElementById('g-monto').value)||0;
+    if(!desc||!monto){ alert('Completá descripción y monto.'); return; }
+    const fecha = document.getElementById('resumen-fecha').value||hoy();
+    setSyncState('syncing');
+    await addDoc(collection(db,'gastos'),{id:Date.now(),fecha,desc,monto});
+    document.getElementById('g-desc').value='';
+    document.getElementById('g-monto').value='';
+  };
+  window.eliminarGasto = async id => { setSyncState('syncing'); await deleteDoc(doc(db,'gastos',id)); };
 
-  // Ganancia
-  const pc = document.getElementById('profit-card');
-  pc.innerHTML = `
-    <div class="card">
+  // Resumen
+  function renderResumen() {
+    const filtro = document.getElementById('resumen-fecha').value;
+    const vF = filtro ? viajes.filter(v=>v.fecha===filtro) : viajes;
+    const gF = filtro ? gastos.filter(g=>g.fecha===filtro) : gastos;
+    const cobrado = vF.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
+    const pendiente = vF.filter(v=>v.estado==='pendiente').reduce((s,v)=>s+v.precio,0);
+    const totalGastos = gF.reduce((s,g)=>s+g.monto,0);
+    const neta = cobrado - totalGastos;
+    document.getElementById('stat-total').textContent = vF.length;
+    document.getElementById('stat-cobrado').textContent = '$'+cobrado.toLocaleString('es-AR');
+    document.getElementById('stat-pendiente').textContent = '$'+pendiente.toLocaleString('es-AR');
+    document.getElementById('gastos-list').innerHTML = !gF.length
+      ? '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px">Sin gastos registrados</div>'
+      : gF.map(g=>`<div class="expense-item">
+          <div><div class="expense-desc">${g.desc}</div><div style="font-size:11px;color:var(--muted)">${formatFecha(g.fecha)}</div></div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="expense-amount">-$${g.monto.toLocaleString('es-AR')}</span>
+            <button class="btn btn-danger" onclick="eliminarGasto('${g._docId}')" style="padding:4px 8px">🗑</button>
+          </div>
+        </div>`).join('');
+    document.getElementById('profit-card').innerHTML = `<div class="card">
       <div class="card-title">Ganancia Neta</div>
       <div class="profit-row"><span>Cobrado</span><span class="val" style="color:var(--green)">+$${cobrado.toLocaleString('es-AR')}</span></div>
       <div class="profit-row"><span>Pendiente</span><span class="val" style="color:var(--accent)">$${pendiente.toLocaleString('es-AR')}</span></div>
       <div class="profit-row"><span>Gastos</span><span class="val" style="color:var(--red)">-$${totalGastos.toLocaleString('es-AR')}</span></div>
       <div class="profit-total">
         <span class="label">💵 GANANCIA NETA</span>
-        <span class="val ${neta < 0 ? 'negative' : ''}">$${neta.toLocaleString('es-AR')}</span>
+        <span class="val ${neta<0?'negative':''}">$${neta.toLocaleString('es-AR')}</span>
       </div>
     </div>`;
-}
+  }
 
-// ─── RUTA ─────────────────────────────────────────────────────
-function renderRuta() {
-  const hoyStr = hoy();
-  const vHoy = viajes.filter(v => v.fecha === hoyStr);
-
-  function renderStops(stops, containerId) {
+  // Ruta
+  function renderRuta() {
+    const hoyStr = hoy();
+    const vHoy = viajes.filter(v=>v.fecha===hoyStr);
     const counts = {};
-    vHoy.forEach(v => {
-      counts[v.destino] = (counts[v.destino] || 0) + 1;
-    });
-    const el = document.getElementById(containerId);
-    el.innerHTML = stops.map((s, i) => {
-      const c = counts[s] || 0;
-      const isLast = i === stops.length - 1;
-      const line = !isLast ? `<div class="stop-line ${c > 0 ? 'has-delivery' : ''}"></div>` : '';
-      const isFirst = i === 0;
-      return `
-        <div class="stop">
-          <div class="stop-dot ${isFirst ? 'origin' : ''} ${c > 0 ? 'has-delivery' : ''}">${isFirst ? '⬤' : (c > 0 ? c : '○')}</div>
+    vHoy.forEach(v=>{ counts[v.destino]=(counts[v.destino]||0)+1; });
+    function renderStops(stops, cid) {
+      document.getElementById(cid).innerHTML = stops.map((s,i)=>{
+        const c=counts[s]||0;
+        const line = i<stops.length-1 ? `<div class="stop-line ${c>0?'has-delivery':''}"></div>` : '';
+        return `<div class="stop">
+          <div class="stop-dot ${i===0?'origin':''} ${c>0?'has-delivery':''}">${i===0?'⬤':(c>0?c:'○')}</div>
           <div class="stop-name">${s}</div>
         </div>${line}`;
-    }).join('');
-  }
-
-  renderStops(rutaSalida, 'route-salida');
-  renderStops(rutaRegreso, 'route-regreso');
-
-  // Envíos por localidad hoy
-  const byLoc = {};
-  viajes.filter(v => v.fecha === hoyStr).forEach(v => {
-    if (!byLoc[v.destino]) byLoc[v.destino] = [];
-    byLoc[v.destino].push(v);
-  });
-  const lr = document.getElementById('localidad-resumen');
-  const keys = Object.keys(byLoc);
-  if (!keys.length) {
-    lr.innerHTML = '<div class="empty"><div class="empty-icon">📍</div>Sin envíos para hoy</div>';
-  } else {
-    lr.innerHTML = keys.map(loc => `
-      <div style="margin-bottom:10px">
-        <div style="font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">
-          📍 ${loc} <span style="color:var(--muted)">(${byLoc[loc].length})</span>
-        </div>
-        ${byLoc[loc].map(v => `
-          <div style="font-size:13px;color:var(--text);padding:6px 10px;background:var(--surface2);border-radius:6px;margin-bottom:4px;display:flex;justify-content:space-between">
-            <span>${v.cliente} — ${v.dirEntrega || 'sin dir.'}</span>
-            <span style="color:${v.estado === 'cobrado' ? 'var(--green)' : 'var(--accent)'};font-family:Space Mono,monospace;font-size:12px">$${v.precio.toLocaleString('es-AR')}</span>
+      }).join('');
+    }
+    renderStops(rutaSalida,'route-salida');
+    renderStops(rutaRegreso,'route-regreso');
+    const byLoc = {};
+    vHoy.forEach(v=>{ if(!byLoc[v.destino]) byLoc[v.destino]=[]; byLoc[v.destino].push(v); });
+    const keys = Object.keys(byLoc);
+    document.getElementById('localidad-resumen').innerHTML = !keys.length
+      ? '<div class="empty"><div class="empty-icon">📍</div>Sin envíos para hoy</div>'
+      : keys.map(loc=>`<div style="margin-bottom:10px">
+          <div style="font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">📍 ${loc} <span style="color:var(--muted)">(${byLoc[loc].length})</span></div>
+          ${byLoc[loc].map(v=>`<div style="font-size:13px;padding:6px 10px;background:var(--surface2);border-radius:6px;margin-bottom:4px;display:flex;justify-content:space-between">
+            <span>${v.cliente} — ${v.dirEntrega||'sin dir.'}</span>
+            <span style="color:${v.estado==='cobrado'?'var(--green)':'var(--accent)'};font-family:Space Mono,monospace;font-size:12px">$${v.precio.toLocaleString('es-AR')}</span>
           </div>`).join('')}
-      </div>`).join('');
+        </div>`).join('');
   }
-}
 
-// ─── BORRAR TODO ──────────────────────────────────────────────
-function confirmarBorrar() {
-  if (confirm('¿Borrar TODOS los datos? Esta acción no se puede deshacer.')) {
-    viajes = []; gastos = []; save();
+  // Borrar todo
+  window.confirmarBorrar = async () => {
+    if(!confirm('¿Borrar TODOS los datos? No se puede deshacer.')) return;
+    setSyncState('syncing');
+    const [vs,gs] = await Promise.all([getDocs(collection(db,'viajes')),getDocs(collection(db,'gastos'))]);
+    await Promise.all([...vs.docs.map(d=>deleteDoc(d.ref)),...gs.docs.map(d=>deleteDoc(d.ref))]);
     alert('Datos eliminados.');
-    renderViajes(); renderResumen(); renderRuta();
-  }
-}
-
-// ─── ARRANQUE ─────────────────────────────────────────────────
-renderViajes();
-renderResumen();
-</script>// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyAY4lDeb-cMLrUYLiwMfhR1T1vVgboqQbI",
-  authDomain: "comisionexpress-5925e.firebaseapp.com",
-  projectId: "comisionexpress-5925e",
-  storageBucket: "comisionexpress-5925e.firebasestorage.app",
-  messagingSenderId: "146588505417",
-  appId: "1:146588505417:web:858da11905a7d3155d3698",
-  measurementId: "G-EPXYJT35DP"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+  };
+</script>
 </body>
 </html>
