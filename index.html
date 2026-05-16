@@ -134,6 +134,24 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading-text { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--muted); }
 
+  /* CLIENTES */
+  .search-box { position: relative; margin-bottom: 12px; }
+  .search-box input { padding-left: 36px; }
+  .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 15px; pointer-events: none; }
+  .client-item { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.15s; }
+  .client-item:hover { border-color: var(--accent); }
+  .client-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .client-name { font-size: 14px; font-weight: 700; color: var(--text); }
+  .client-count { font-size: 11px; color: var(--muted); background: var(--surface); padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+  .client-meta { display: flex; gap: 12px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+  .client-total { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 700; }
+
+  .back-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; color: var(--muted); font-size: 13px; font-weight: 700; cursor: pointer; margin-bottom: 14px; padding: 0; font-family: 'Manrope', sans-serif; }
+  .back-btn:hover { color: var(--text); }
+  .client-detail-header { margin-bottom: 14px; }
+  .client-detail-name { font-size: 20px; font-weight: 800; color: var(--text); }
+  .client-detail-wa { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
   @media (max-width: 360px) {
     .form-row { grid-template-columns: 1fr; }
     .stats-row { grid-template-columns: 1fr 1fr; }
@@ -158,6 +176,7 @@
 <div class="tabs">
   <button class="tab active" onclick="showTab('registrar',this)">➕ Registrar</button>
   <button class="tab" onclick="showTab('viajes',this)">📦 Viajes</button>
+  <button class="tab" onclick="showTab('clientes',this)">👥 Clientes</button>
   <button class="tab" onclick="showTab('resumen',this)">💰 Resumen</button>
   <button class="tab" onclick="showTab('ruta',this)">🗺️ Ruta</button>
   <button class="tab" onclick="showTab('consejos',this)">💡 Tips</button>
@@ -217,6 +236,32 @@
     <button class="btn btn-ghost btn-sm" onclick="document.getElementById('filtro-fecha').value='';renderViajes()">Todos</button>
   </div>
   <div id="viajes-list"></div>
+</div>
+
+<!-- CLIENTES -->
+<div id="tab-clientes" class="section">
+  <!-- Lista de clientes -->
+  <div id="clientes-lista-view">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="clientes-search" placeholder="Buscar cliente..." oninput="renderClientes()">
+    </div>
+    <div id="clientes-list"></div>
+  </div>
+  <!-- Detalle de cliente -->
+  <div id="clientes-detalle-view" style="display:none">
+    <button class="back-btn" onclick="volverClientes()">← Volver a clientes</button>
+    <div class="client-detail-header">
+      <div class="client-detail-name" id="detalle-nombre"></div>
+      <div class="client-detail-wa" id="detalle-wa"></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><span class="stat-val" id="detalle-total">0</span><div class="stat-label">Envíos</div></div>
+      <div class="stat-card"><span class="stat-val green" id="detalle-cobrado">$0</span><div class="stat-label">Cobrado</div></div>
+      <div class="stat-card"><span class="stat-val" id="detalle-pendiente">$0</span><div class="stat-label">Pendiente</div></div>
+    </div>
+    <div id="detalle-viajes"></div>
+  </div>
 </div>
 
 <!-- RESUMEN -->
@@ -354,12 +399,13 @@
     document.getElementById('tab-'+id).classList.add('active');
     if(btn) btn.classList.add('active');
     if(id==='ruta') renderRuta();
+    if(id==='clientes') renderClientes();
   };
 
   // Listeners en tiempo real
   onSnapshot(query(collection(db,'viajes'), orderBy('id','desc')), snap => {
     viajes = snap.docs.map(d=>({...d.data(), _docId:d.id}));
-    renderViajes(); renderResumen(); renderRuta();
+    renderViajes(); renderResumen(); renderRuta(); renderClientes();
     setSyncState('ok');
     document.getElementById('loadingScreen').classList.add('hidden');
   }, () => setSyncState('error'));
@@ -554,6 +600,84 @@
           </div>`).join('')}
         </div>`).join('');
   }
+
+  // Clientes
+  function renderClientes() {
+    const busqueda = (document.getElementById('clientes-search').value||'').toLowerCase();
+    // Agrupar viajes por cliente
+    const mapa = {};
+    viajes.forEach(v => {
+      const key = v.cliente.trim().toLowerCase();
+      if (!mapa[key]) mapa[key] = { nombre: v.cliente.trim(), wa: v.wa||'', envios: [] };
+      if (v.wa && !mapa[key].wa) mapa[key].wa = v.wa;
+      mapa[key].envios.push(v);
+    });
+    let lista = Object.values(mapa);
+    if (busqueda) lista = lista.filter(c => c.nombre.toLowerCase().includes(busqueda));
+    lista.sort((a,b) => a.nombre.localeCompare(b.nombre));
+    const el = document.getElementById('clientes-list');
+    if (!lista.length) {
+      el.innerHTML = `<div class="empty"><div class="empty-icon">👥</div>${busqueda ? 'Sin resultados.' : 'No hay clientes aún.'}</div>`;
+      return;
+    }
+    el.innerHTML = lista.map(c => {
+      const cobrado = c.envios.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
+      const pendiente = c.envios.filter(v=>v.estado==='pendiente').reduce((s,v)=>s+v.precio,0);
+      const ultimo = c.envios.sort((a,b)=>b.id-a.id)[0];
+      return `<div class="client-item" onclick="abrirCliente('${encodeURIComponent(c.nombre)}')">
+        <div class="client-header">
+          <div class="client-name">${c.nombre}</div>
+          <div class="client-count">${c.envios.length} envío${c.envios.length!==1?'s':''}</div>
+        </div>
+        <div class="client-meta">
+          <span class="client-total">$${(cobrado+pendiente).toLocaleString('es-AR')} total</span>
+          ${pendiente>0?`<span style="color:var(--accent)">$${pendiente.toLocaleString('es-AR')} pendiente</span>`:''}
+          <span>Último: ${formatFecha(ultimo.fecha)}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  window.abrirCliente = nombre => {
+    const nombreDec = decodeURIComponent(nombre);
+    const enviosCliente = viajes.filter(v=>v.cliente.trim().toLowerCase()===nombreDec.trim().toLowerCase());
+    enviosCliente.sort((a,b)=>b.id-a.id);
+    const wa = enviosCliente.find(v=>v.wa)?.wa || '';
+    const cobrado = enviosCliente.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
+    const pendiente = enviosCliente.filter(v=>v.estado==='pendiente').reduce((s,v)=>s+v.precio,0);
+
+    document.getElementById('detalle-nombre').textContent = nombreDec;
+    document.getElementById('detalle-wa').innerHTML = wa
+      ? `<a class="wa-btn" href="https://wa.me/${wa.replace(/\D/g,'')}" target="_blank" style="display:inline-flex;margin-top:4px">💬 ${wa}</a>`
+      : '<span>Sin WhatsApp registrado</span>';
+    document.getElementById('detalle-total').textContent = enviosCliente.length;
+    document.getElementById('detalle-cobrado').textContent = '$'+cobrado.toLocaleString('es-AR');
+    document.getElementById('detalle-pendiente').textContent = '$'+pendiente.toLocaleString('es-AR');
+
+    document.getElementById('detalle-viajes').innerHTML = enviosCliente.map(v=>`
+      <div class="trip-item">
+        <div class="trip-header">
+          <div class="trip-route"><span>${v.origen}</span><span class="arrow">→</span><span>${v.destino}</span></div>
+          <div class="trip-price">$${v.precio.toLocaleString('es-AR')}</div>
+        </div>
+        <div class="trip-meta">
+          <span>📅 ${formatFecha(v.fecha)}</span>
+          ${v.dirEntrega?`<span>🏠 ${v.dirEntrega}</span>`:''}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          ${v.estado==='cobrado'?`<span class="badge badge-paid">✓ Cobrado</span>`:`<span class="badge badge-pending">⏳ Pendiente</span>`}
+          ${v.nota?`<span class="trip-note">📝 ${v.nota}</span>`:''}
+        </div>
+      </div>`).join('');
+
+    document.getElementById('clientes-lista-view').style.display = 'none';
+    document.getElementById('clientes-detalle-view').style.display = 'block';
+  };
+
+  window.volverClientes = () => {
+    document.getElementById('clientes-lista-view').style.display = 'block';
+    document.getElementById('clientes-detalle-view').style.display = 'none';
+  };
 
   // Borrar todo
   window.confirmarBorrar = async () => {
