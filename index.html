@@ -134,6 +134,22 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading-text { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--muted); }
 
+  /* CALCULADORA */
+  .calc-slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .calc-slider-label { font-size: 12px; font-weight: 600; color: var(--muted); width: 70px; flex-shrink: 0; }
+  .calc-km-val { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--accent); min-width: 60px; text-align: right; }
+  input[type=range] { flex: 1; -webkit-appearance: none; height: 4px; background: var(--border); border-radius: 2px; outline: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+  input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--accent); cursor: pointer; border: none; }
+  .zone-tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 14px; }
+  .zone-base { background: rgba(62,207,142,0.15); color: var(--green); }
+  .zone-ext  { background: rgba(240,192,64,0.15);  color: var(--accent); }
+  .calc-breakdown { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .calc-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--muted); }
+  .calc-row:last-child { border-bottom: none; font-weight: 800; font-size: 15px; color: var(--text); }
+  .calc-row .val { font-family: 'Space Mono', monospace; font-weight: 700; color: var(--text); }
+  .calc-row:last-child .val { color: var(--green); font-size: 18px; }
+
   /* CLIENTES */
   .search-box { position: relative; margin-bottom: 12px; }
   .search-box input { padding-left: 36px; }
@@ -179,6 +195,7 @@
   <button class="tab" onclick="showTab('clientes',this)">👥 Clientes</button>
   <button class="tab" onclick="showTab('resumen',this)">💰 Resumen</button>
   <button class="tab" onclick="showTab('ruta',this)">🗺️ Ruta</button>
+  <button class="tab" onclick="showTab('tarifa',this)">🧮 Tarifa</button>
   <button class="tab" onclick="showTab('consejos',this)">💡 Tips</button>
 </div>
 
@@ -302,6 +319,71 @@
   <div class="card">
     <div class="card-title">Envíos por Localidad (hoy)</div>
     <div id="localidad-resumen"></div>
+  </div>
+</div>
+
+<!-- TARIFA -->
+<div id="tab-tarifa" class="section">
+  <div class="card">
+    <div class="card-title">Calculadora de Tarifa</div>
+
+    <div class="calc-slider-row">
+      <span class="calc-slider-label">Distancia</span>
+      <input type="range" min="1" max="200" value="60" step="1" id="km-slider">
+      <span class="calc-km-val"><span id="calc-km-out">60</span> km</span>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <span class="zone-tag zone-ext" id="calc-zone-tag">Zona extendida</span>
+    </div>
+
+    <div class="stats-row" style="margin-bottom:14px">
+      <div class="stat-card">
+        <span class="stat-val" id="calc-c-km">60 km</span>
+        <div class="stat-label">Distancia</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-val" id="calc-c-extra">30 km</span>
+        <div class="stat-label">Km adicionales</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-val green" id="calc-c-total">$10.500</span>
+        <div class="stat-label">Precio final</div>
+      </div>
+    </div>
+
+    <div class="calc-breakdown">
+      <div class="calc-row">
+        <span>Tarifa base (hasta 30 km)</span>
+        <span class="val">$6.000</span>
+      </div>
+      <div class="calc-row">
+        <span id="calc-extra-label">30 km adicionales × $150</span>
+        <span class="val" id="calc-extra-val">$4.500</span>
+      </div>
+      <div class="calc-row">
+        <span>Total</span>
+        <span class="val" id="calc-total-val">$10.500</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Parámetros</div>
+    <div class="form-row">
+      <div>
+        <label>Tarifa base ($)</label>
+        <input type="number" id="param-base" value="6000" min="0" step="100" oninput="updateCalc()">
+      </div>
+      <div>
+        <label>Km base incluidos</label>
+        <input type="number" id="param-km-base" value="30" min="1" step="1" oninput="updateCalc()">
+      </div>
+    </div>
+    <div style="margin-top:10px">
+      <label>Precio por km adicional ($)</label>
+      <input type="number" id="param-per-km" value="150" min="0" step="10" oninput="updateCalc()">
+    </div>
   </div>
 </div>
 
@@ -678,6 +760,36 @@
     document.getElementById('clientes-lista-view').style.display = 'block';
     document.getElementById('clientes-detalle-view').style.display = 'none';
   };
+
+  // Calculadora
+  function updateCalc() {
+    const base   = parseFloat(document.getElementById('param-base').value)    || 6000;
+    const baseKm = parseFloat(document.getElementById('param-km-base').value) || 30;
+    const perKm  = parseFloat(document.getElementById('param-per-km').value)  || 150;
+    const km     = parseInt(document.getElementById('km-slider').value);
+    const extraKm = Math.max(0, km - baseKm);
+    const total   = base + extraKm * perKm;
+    const fmt = n => '$' + Math.round(n).toLocaleString('es-AR');
+
+    document.getElementById('calc-km-out').textContent     = km;
+    document.getElementById('calc-c-km').textContent       = km + ' km';
+    document.getElementById('calc-c-extra').textContent    = extraKm + ' km';
+    document.getElementById('calc-c-total').textContent    = fmt(total);
+    document.getElementById('calc-extra-label').textContent= extraKm + ' km adicionales × $' + perKm;
+    document.getElementById('calc-extra-val').textContent  = fmt(extraKm * perKm);
+    document.getElementById('calc-total-val').textContent  = fmt(total);
+
+    const tag = document.getElementById('calc-zone-tag');
+    if (km <= baseKm) {
+      tag.textContent = 'Zona base (hasta ' + baseKm + ' km)';
+      tag.className   = 'zone-tag zone-base';
+    } else {
+      tag.textContent = 'Zona extendida';
+      tag.className   = 'zone-tag zone-ext';
+    }
+  }
+  document.getElementById('km-slider').addEventListener('input', updateCalc);
+  updateCalc();
 
   // Borrar todo
   window.confirmarBorrar = async () => {
