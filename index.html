@@ -81,7 +81,19 @@
   .badge-pending { background: rgba(240,192,64,0.15); color: var(--accent); }
   .badge-paid { background: rgba(62,207,142,0.15); color: var(--green); }
   .trip-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
-  .wa-btn { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 6px; background: rgba(37,211,102,0.15); color: #25d366; font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid rgba(37,211,102,0.2); }
+  .wa-btn { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 6px; background: rgba(37,211,102,0.15); color: #25d366; font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid rgba(37,211,102,0.2); cursor: pointer; }
+
+  /* ── NUEVOS: botones WA destinatario ── */
+  .wa-btn-dest {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 700;
+    text-decoration: none; cursor: pointer; border: none; font-family: 'Manrope', sans-serif;
+  }
+  .wa-btn-camino  { background: rgba(240,192,64,0.12); color: var(--accent);  border: 1px solid rgba(240,192,64,0.25); }
+  .wa-btn-llego   { background: rgba(10,132,255,0.12); color: #4da3ff;        border: 1px solid rgba(10,132,255,0.25); }
+  .wa-dest-grupo  { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
+  .wa-dest-label  { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; align-self: center; }
+
   .trip-client { font-size: 13px; color: var(--text); font-weight: 600; }
   .trip-note { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 4px; }
 
@@ -205,8 +217,15 @@
     <div class="card-title">Nuevo Envío</div>
     <div class="form-grid">
       <div><label>Fecha</label><input type="date" id="f-fecha"></div>
+
+      <!-- REMITENTE -->
       <div><label>Cliente / Remitente</label><input type="text" id="f-cliente" placeholder="Nombre del cliente"></div>
-      <div><label>WhatsApp (con 549...)</label><input type="tel" id="f-wa" placeholder="5493412345678"></div>
+      <div><label>WhatsApp Remitente (con 549...)</label><input type="tel" id="f-wa" placeholder="5493412345678"></div>
+
+      <!-- ── NUEVO: Destinatario ── -->
+      <div><label>Destinatario</label><input type="text" id="f-dest-nombre" placeholder="Nombre de quien recibe"></div>
+      <div><label>WhatsApp Destinatario (con 549...)</label><input type="tel" id="f-dest-wa" placeholder="5493412345678"></div>
+
       <div class="form-row">
         <div>
           <label>Origen</label>
@@ -257,7 +276,6 @@
 
 <!-- CLIENTES -->
 <div id="tab-clientes" class="section">
-  <!-- Lista de clientes -->
   <div id="clientes-lista-view">
     <div class="search-box">
       <span class="search-icon">🔍</span>
@@ -265,7 +283,6 @@
     </div>
     <div id="clientes-list"></div>
   </div>
-  <!-- Detalle de cliente -->
   <div id="clientes-detalle-view" style="display:none">
     <button class="back-btn" onclick="volverClientes()">← Volver a clientes</button>
     <div class="client-detail-header">
@@ -326,59 +343,30 @@
 <div id="tab-tarifa" class="section">
   <div class="card">
     <div class="card-title">Calculadora de Tarifa</div>
-
     <div class="calc-slider-row">
       <span class="calc-slider-label">Distancia</span>
       <input type="range" min="1" max="200" value="60" step="1" id="km-slider">
       <span class="calc-km-val"><span id="calc-km-out">60</span> km</span>
     </div>
-
     <div style="margin-bottom:14px">
       <span class="zone-tag zone-ext" id="calc-zone-tag">Zona extendida</span>
     </div>
-
     <div class="stats-row" style="margin-bottom:14px">
-      <div class="stat-card">
-        <span class="stat-val" id="calc-c-km">60 km</span>
-        <div class="stat-label">Distancia</div>
-      </div>
-      <div class="stat-card">
-        <span class="stat-val" id="calc-c-extra">30 km</span>
-        <div class="stat-label">Km adicionales</div>
-      </div>
-      <div class="stat-card">
-        <span class="stat-val green" id="calc-c-total">$10.500</span>
-        <div class="stat-label">Precio final</div>
-      </div>
+      <div class="stat-card"><span class="stat-val" id="calc-c-km">60 km</span><div class="stat-label">Distancia</div></div>
+      <div class="stat-card"><span class="stat-val" id="calc-c-extra">30 km</span><div class="stat-label">Km adicionales</div></div>
+      <div class="stat-card"><span class="stat-val green" id="calc-c-total">$10.500</span><div class="stat-label">Precio final</div></div>
     </div>
-
     <div class="calc-breakdown">
-      <div class="calc-row">
-        <span>Tarifa base (hasta 30 km)</span>
-        <span class="val">$6.000</span>
-      </div>
-      <div class="calc-row">
-        <span id="calc-extra-label">30 km adicionales × $150</span>
-        <span class="val" id="calc-extra-val">$4.500</span>
-      </div>
-      <div class="calc-row">
-        <span>Total</span>
-        <span class="val" id="calc-total-val">$10.500</span>
-      </div>
+      <div class="calc-row"><span>Tarifa base (hasta 30 km)</span><span class="val">$6.000</span></div>
+      <div class="calc-row"><span id="calc-extra-label">30 km adicionales × $150</span><span class="val" id="calc-extra-val">$4.500</span></div>
+      <div class="calc-row"><span>Total</span><span class="val" id="calc-total-val">$10.500</span></div>
     </div>
   </div>
-
   <div class="card">
     <div class="card-title">Parámetros</div>
     <div class="form-row">
-      <div>
-        <label>Tarifa base ($)</label>
-        <input type="number" id="param-base" value="6000" min="0" step="100" oninput="updateCalc()">
-      </div>
-      <div>
-        <label>Km base incluidos</label>
-        <input type="number" id="param-km-base" value="30" min="1" step="1" oninput="updateCalc()">
-      </div>
+      <div><label>Tarifa base ($)</label><input type="number" id="param-base" value="6000" min="0" step="100" oninput="updateCalc()"></div>
+      <div><label>Km base incluidos</label><input type="number" id="param-km-base" value="30" min="1" step="1" oninput="updateCalc()"></div>
     </div>
     <div style="margin-top:10px">
       <label>Precio por km adicional ($)</label>
@@ -404,7 +392,7 @@
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL EDITAR -->
 <div class="modal-overlay" id="editModal">
   <div class="modal">
     <div class="modal-header">
@@ -414,7 +402,10 @@
     <div class="form-grid">
       <input type="hidden" id="e-id">
       <div><label>Cliente</label><input type="text" id="e-cliente"></div>
-      <div><label>WhatsApp</label><input type="tel" id="e-wa"></div>
+      <div><label>WhatsApp Remitente</label><input type="tel" id="e-wa"></div>
+      <!-- ── NUEVO: editar destinatario ── -->
+      <div><label>Destinatario</label><input type="text" id="e-dest-nombre"></div>
+      <div><label>WhatsApp Destinatario</label><input type="tel" id="e-dest-wa"></div>
       <div><label>Precio ($)</label><input type="number" id="e-precio"></div>
       <div><label>Estado</label>
         <select id="e-estado"><option value="pendiente">Pendiente</option><option value="cobrado">Cobrado</option></select>
@@ -451,6 +442,12 @@
   function hoy() { return new Date().toISOString().split('T')[0]; }
   function formatFecha(f) { const [y,m,d] = f.split('-'); return `${d}/${m}/${y}`; }
   function setSyncState(s) { document.getElementById('syncDot').className = 'sync-dot ' + s; }
+
+  // ── NUEVO: abrir WhatsApp con mensaje predefinido ──
+  function abrirWA(numero, mensaje) {
+    const limpio = numero.replace(/\D/g, '');
+    window.open(`https://wa.me/${limpio}?text=${encodeURIComponent(mensaje)}`, '_blank');
+  }
 
   // Init
   document.getElementById('navDate').textContent = new Date().toLocaleDateString('es-AR',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();
@@ -497,13 +494,17 @@
     renderResumen();
   });
 
-  // Guardar viaje
+  // Guardar viaje — ahora incluye destNombre y destWa
   window.guardarViaje = async () => {
     const v = {
       id: Date.now(),
       fecha: document.getElementById('f-fecha').value,
       cliente: document.getElementById('f-cliente').value.trim(),
       wa: document.getElementById('f-wa').value.trim(),
+      // ── NUEVO ──
+      destNombre: document.getElementById('f-dest-nombre').value.trim(),
+      destWa:     document.getElementById('f-dest-wa').value.trim(),
+      // ───────────
       origen: getOrigen(),
       destino: getDestino(),
       dirRetiro: document.getElementById('f-dir-retiro').value.trim(),
@@ -517,21 +518,20 @@
     btn.disabled=true; btn.textContent='Guardando...'; setSyncState('syncing');
     try {
       await addDoc(collection(db,'viajes'), v);
-      // limpiar
-      ['f-cliente','f-wa','f-dir-retiro','f-dir-entrega','f-precio','f-nota'].forEach(id=>document.getElementById(id).value='');
+      // limpiar campos
+      ['f-cliente','f-wa','f-dest-nombre','f-dest-wa','f-dir-retiro','f-dir-entrega','f-precio','f-nota'].forEach(id=>document.getElementById(id).value='');
       document.getElementById('f-origen').value='';
       document.getElementById('f-destino').value='';
       document.getElementById('f-estado').value='pendiente';
       document.getElementById('origen-custom').style.display='none';
       document.getElementById('destino-custom').style.display='none';
       document.getElementById('f-fecha').value=hoy();
-      // ir a viajes
       window.showTab('viajes', document.querySelectorAll('.tab')[1]);
     } catch(e) { alert('Error al guardar. Verificá tu conexión.'); setSyncState('error'); }
     btn.disabled=false; btn.textContent='✓ Guardar Envío';
   };
 
-  // Render viajes
+  // Render viajes — agrega los 3 botones nuevos para el destinatario
   function renderViajes() {
     const filtro = document.getElementById('filtro-fecha').value;
     let lista = filtro ? viajes.filter(v=>v.fecha===filtro) : [...viajes];
@@ -542,53 +542,87 @@
       return;
     }
     el.innerHTML = lista.map(v=>{
-      const waLink = v.wa ? `<a class="wa-btn" href="https://wa.me/${v.wa.replace(/\D/g,'')}?text=Hola%20${encodeURIComponent(v.cliente)}%2C%20tu%20env%C3%ADo%20fue%20entregado%20✓" target="_blank">💬 WhatsApp</a>` : '';
-      const badge = v.estado==='cobrado' ? `<span class="badge badge-paid">✓ Cobrado</span>` : `<span class="badge badge-pending">⏳ Pendiente</span>`;
+      // Botón WA remitente (existente, sin cambios)
+      const waRemitente = v.wa
+        ? `<a class="wa-btn" href="https://wa.me/${v.wa.replace(/\D/g,'')}?text=Hola%20${encodeURIComponent(v.cliente)}%2C%20tu%20env%C3%ADo%20fue%20entregado%20✓" target="_blank">💬 Entregado</a>`
+        : '';
+
+      const badge = v.estado==='cobrado'
+        ? `<span class="badge badge-paid">✓ Cobrado</span>`
+        : `<span class="badge badge-pending">⏳ Pendiente</span>`;
+
+      // ── NUEVO: botones WA destinatario ──
+      let seccionDestinatario = '';
+      if (v.destWa) {
+        const nombre = v.destNombre || 'destinatario';
+        const dir    = v.dirEntrega  || v.destino;
+        const msgCamino  = `Hola ${nombre} 👋, tu pedido fue retirado y ya está en camino. ¡Pronto llegará a ${dir}!`;
+        const msgLlegando = `Hola ${nombre} 👋, soy el repartidor. Estoy llegando a *${dir}* con tu pedido. ¡En unos minutos estoy ahí!`;
+        seccionDestinatario = `
+          <div class="wa-dest-grupo">
+            <span class="wa-dest-label">Destinatario:</span>
+            <button class="wa-btn-dest wa-btn-camino" onclick="abrirWA('${v.destWa}','${escJS(msgCamino)}')">📦 En camino</button>
+            <button class="wa-btn-dest wa-btn-llego"  onclick="abrirWA('${v.destWa}','${escJS(msgLlegando)}')">🛵 Estoy llegando</button>
+          </div>`;
+      } else if (v.destNombre) {
+        seccionDestinatario = `<div class="wa-dest-grupo"><span class="wa-dest-label" style="color:var(--muted)">Sin WA del destinatario</span></div>`;
+      }
+
       return `<div class="trip-item">
         <div class="trip-header">
           <div>
             <div class="trip-client">${v.cliente}</div>
             <div class="trip-route"><span>${v.origen}</span><span class="arrow">→</span><span>${v.destino}</span></div>
+            ${v.destNombre ? `<div style="font-size:12px;color:var(--muted);margin-top:2px">📍 Destinatario: ${v.destNombre}</div>` : ''}
           </div>
           <div class="trip-price">$${v.precio.toLocaleString('es-AR')}</div>
         </div>
         <div class="trip-meta">
           <span>📅 ${formatFecha(v.fecha)}</span>
-          ${v.dirRetiro?`<span>📍 ${v.dirRetiro}</span>`:''}
-          ${v.dirEntrega?`<span>🏠 ${v.dirEntrega}</span>`:''}
+          ${v.dirRetiro  ? `<span>📍 ${v.dirRetiro}</span>`  : ''}
+          ${v.dirEntrega ? `<span>🏠 ${v.dirEntrega}</span>` : ''}
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
           ${badge}
           ${v.nota?`<span class="trip-note">📝 ${v.nota}</span>`:''}
         </div>
         <div class="trip-actions">
-          ${waLink}
+          ${waRemitente}
           ${v.estado==='pendiente'
             ?`<button class="btn btn-green btn-sm" onclick="marcarCobrado('${v._docId}')">✓ Cobrado</button>`
             :`<button class="btn btn-ghost btn-sm" onclick="marcarPendiente('${v._docId}')">↩ Pendiente</button>`}
           <button class="btn btn-ghost btn-sm" onclick="abrirEdicion('${v._docId}')">✏️ Editar</button>
           <button class="btn btn-danger" onclick="eliminarViaje('${v._docId}')">🗑</button>
         </div>
+        ${seccionDestinatario}
       </div>`;
     }).join('');
   }
 
-  window.marcarCobrado  = async id => { setSyncState('syncing'); await updateDoc(doc(db,'viajes',id),{estado:'cobrado'}); };
+  // Escapar comillas simples para onclick inline
+  function escJS(s) { return s.replace(/'/g, "\\'"); }
+
+  // Exponer abrirWA globalmente para los onclick inline
+  window.abrirWA = abrirWA;
+
+  window.marcarCobrado   = async id => { setSyncState('syncing'); await updateDoc(doc(db,'viajes',id),{estado:'cobrado'}); };
   window.marcarPendiente = async id => { setSyncState('syncing'); await updateDoc(doc(db,'viajes',id),{estado:'pendiente'}); };
-  window.eliminarViaje  = async id => {
+  window.eliminarViaje   = async id => {
     if(!confirm('¿Eliminar este envío?')) return;
     setSyncState('syncing'); await deleteDoc(doc(db,'viajes',id));
   };
 
-  // Edición
+  // Edición — ahora guarda también destNombre y destWa
   window.abrirEdicion = id => {
     const v = viajes.find(x=>x._docId===id); if(!v) return;
-    document.getElementById('e-id').value=id;
-    document.getElementById('e-cliente').value=v.cliente;
-    document.getElementById('e-wa').value=v.wa||'';
-    document.getElementById('e-precio').value=v.precio;
-    document.getElementById('e-estado').value=v.estado;
-    document.getElementById('e-nota').value=v.nota||'';
+    document.getElementById('e-id').value          = id;
+    document.getElementById('e-cliente').value     = v.cliente;
+    document.getElementById('e-wa').value          = v.wa||'';
+    document.getElementById('e-dest-nombre').value = v.destNombre||'';
+    document.getElementById('e-dest-wa').value     = v.destWa||'';
+    document.getElementById('e-precio').value      = v.precio;
+    document.getElementById('e-estado').value      = v.estado;
+    document.getElementById('e-nota').value        = v.nota||'';
     document.getElementById('editModal').classList.add('open');
   };
   window.cerrarModal = () => document.getElementById('editModal').classList.remove('open');
@@ -596,16 +630,18 @@
     const id = document.getElementById('e-id').value;
     setSyncState('syncing');
     await updateDoc(doc(db,'viajes',id),{
-      cliente: document.getElementById('e-cliente').value.trim(),
-      wa: document.getElementById('e-wa').value.trim(),
-      precio: parseFloat(document.getElementById('e-precio').value)||0,
-      estado: document.getElementById('e-estado').value,
-      nota: document.getElementById('e-nota').value.trim(),
+      cliente:    document.getElementById('e-cliente').value.trim(),
+      wa:         document.getElementById('e-wa').value.trim(),
+      destNombre: document.getElementById('e-dest-nombre').value.trim(),
+      destWa:     document.getElementById('e-dest-wa').value.trim(),
+      precio:     parseFloat(document.getElementById('e-precio').value)||0,
+      estado:     document.getElementById('e-estado').value,
+      nota:       document.getElementById('e-nota').value.trim(),
     });
     cerrarModal();
   };
 
-  // Gastos
+  // Gastos (sin cambios)
   window.agregarGasto = async () => {
     const desc = document.getElementById('g-desc').value.trim();
     const monto = parseFloat(document.getElementById('g-monto').value)||0;
@@ -618,17 +654,17 @@
   };
   window.eliminarGasto = async id => { setSyncState('syncing'); await deleteDoc(doc(db,'gastos',id)); };
 
-  // Resumen
+  // Resumen (sin cambios)
   function renderResumen() {
     const filtro = document.getElementById('resumen-fecha').value;
     const vF = filtro ? viajes.filter(v=>v.fecha===filtro) : viajes;
     const gF = filtro ? gastos.filter(g=>g.fecha===filtro) : gastos;
-    const cobrado = vF.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
-    const pendiente = vF.filter(v=>v.estado==='pendiente').reduce((s,v)=>s+v.precio,0);
+    const cobrado    = vF.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
+    const pendiente  = vF.filter(v=>v.estado==='pendiente').reduce((s,v)=>s+v.precio,0);
     const totalGastos = gF.reduce((s,g)=>s+g.monto,0);
     const neta = cobrado - totalGastos;
-    document.getElementById('stat-total').textContent = vF.length;
-    document.getElementById('stat-cobrado').textContent = '$'+cobrado.toLocaleString('es-AR');
+    document.getElementById('stat-total').textContent     = vF.length;
+    document.getElementById('stat-cobrado').textContent   = '$'+cobrado.toLocaleString('es-AR');
     document.getElementById('stat-pendiente').textContent = '$'+pendiente.toLocaleString('es-AR');
     document.getElementById('gastos-list').innerHTML = !gF.length
       ? '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px">Sin gastos registrados</div>'
@@ -651,7 +687,7 @@
     </div>`;
   }
 
-  // Ruta
+  // Ruta (sin cambios)
   function renderRuta() {
     const hoyStr = hoy();
     const vHoy = viajes.filter(v=>v.fecha===hoyStr);
@@ -683,10 +719,9 @@
         </div>`).join('');
   }
 
-  // Clientes
+  // Clientes (sin cambios)
   function renderClientes() {
     const busqueda = (document.getElementById('clientes-search').value||'').toLowerCase();
-    // Agrupar viajes por cliente
     const mapa = {};
     viajes.forEach(v => {
       const key = v.cliente.trim().toLowerCase();
@@ -703,9 +738,9 @@
       return;
     }
     el.innerHTML = lista.map(c => {
-      const cobrado = c.envios.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
+      const cobrado   = c.envios.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
       const pendiente = c.envios.filter(v=>v.estado==='pendiente').reduce((s,v)=>s+v.precio,0);
-      const ultimo = c.envios.sort((a,b)=>b.id-a.id)[0];
+      const ultimo    = c.envios.sort((a,b)=>b.id-a.id)[0];
       return `<div class="client-item" onclick="abrirCliente('${encodeURIComponent(c.nombre)}')">
         <div class="client-header">
           <div class="client-name">${c.nombre}</div>
@@ -725,15 +760,15 @@
     const enviosCliente = viajes.filter(v=>v.cliente.trim().toLowerCase()===nombreDec.trim().toLowerCase());
     enviosCliente.sort((a,b)=>b.id-a.id);
     const wa = enviosCliente.find(v=>v.wa)?.wa || '';
-    const cobrado = enviosCliente.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
+    const cobrado   = enviosCliente.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
     const pendiente = enviosCliente.filter(v=>v.estado==='pendiente').reduce((s,v)=>s+v.precio,0);
 
     document.getElementById('detalle-nombre').textContent = nombreDec;
     document.getElementById('detalle-wa').innerHTML = wa
       ? `<a class="wa-btn" href="https://wa.me/${wa.replace(/\D/g,'')}" target="_blank" style="display:inline-flex;margin-top:4px">💬 ${wa}</a>`
       : '<span>Sin WhatsApp registrado</span>';
-    document.getElementById('detalle-total').textContent = enviosCliente.length;
-    document.getElementById('detalle-cobrado').textContent = '$'+cobrado.toLocaleString('es-AR');
+    document.getElementById('detalle-total').textContent     = enviosCliente.length;
+    document.getElementById('detalle-cobrado').textContent   = '$'+cobrado.toLocaleString('es-AR');
     document.getElementById('detalle-pendiente').textContent = '$'+pendiente.toLocaleString('es-AR');
 
     document.getElementById('detalle-viajes').innerHTML = enviosCliente.map(v=>`
@@ -761,7 +796,7 @@
     document.getElementById('clientes-detalle-view').style.display = 'none';
   };
 
-  // Calculadora
+  // Calculadora (sin cambios)
   function updateCalc() {
     const base   = parseFloat(document.getElementById('param-base').value)    || 6000;
     const baseKm = parseFloat(document.getElementById('param-km-base').value) || 30;
@@ -770,28 +805,21 @@
     const extraKm = Math.max(0, km - baseKm);
     const total   = base + extraKm * perKm;
     const fmt = n => '$' + Math.round(n).toLocaleString('es-AR');
-
-    document.getElementById('calc-km-out').textContent     = km;
-    document.getElementById('calc-c-km').textContent       = km + ' km';
-    document.getElementById('calc-c-extra').textContent    = extraKm + ' km';
-    document.getElementById('calc-c-total').textContent    = fmt(total);
-    document.getElementById('calc-extra-label').textContent= extraKm + ' km adicionales × $' + perKm;
-    document.getElementById('calc-extra-val').textContent  = fmt(extraKm * perKm);
-    document.getElementById('calc-total-val').textContent  = fmt(total);
-
+    document.getElementById('calc-km-out').textContent      = km;
+    document.getElementById('calc-c-km').textContent        = km + ' km';
+    document.getElementById('calc-c-extra').textContent     = extraKm + ' km';
+    document.getElementById('calc-c-total').textContent     = fmt(total);
+    document.getElementById('calc-extra-label').textContent = extraKm + ' km adicionales × $' + perKm;
+    document.getElementById('calc-extra-val').textContent   = fmt(extraKm * perKm);
+    document.getElementById('calc-total-val').textContent   = fmt(total);
     const tag = document.getElementById('calc-zone-tag');
-    if (km <= baseKm) {
-      tag.textContent = 'Zona base (hasta ' + baseKm + ' km)';
-      tag.className   = 'zone-tag zone-base';
-    } else {
-      tag.textContent = 'Zona extendida';
-      tag.className   = 'zone-tag zone-ext';
-    }
+    if (km <= baseKm) { tag.textContent = 'Zona base (hasta ' + baseKm + ' km)'; tag.className = 'zone-tag zone-base'; }
+    else              { tag.textContent = 'Zona extendida'; tag.className = 'zone-tag zone-ext'; }
   }
   document.getElementById('km-slider').addEventListener('input', updateCalc);
   updateCalc();
 
-  // Borrar todo
+  // Borrar todo (sin cambios)
   window.confirmarBorrar = async () => {
     if(!confirm('¿Borrar TODOS los datos? No se puede deshacer.')) return;
     setSyncState('syncing');
