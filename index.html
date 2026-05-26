@@ -640,35 +640,40 @@
      tipo 'ciudad' → rendimiento urbano (11–13)
   ═══════════════════════════════════════════════════ */
   const DISTANCIAS = {
-    // Ruta de salida tramo a tramo
+    // ── Distancias exactas confirmadas por el operador ──
+    // Desde Las Varillas (directos)
     'Las Varillas|Alicia':            { km: 28,  tipo: 'ruta' },
-    'Alicia|El Fortín':               { km: 18,  tipo: 'ruta' },
-    'El Fortín|Landeta':              { km: 22,  tipo: 'ruta' },
-    'Landeta|Piamonte':               { km: 15,  tipo: 'ruta' },
-    'Piamonte|Los Cardos':            { km: 12,  tipo: 'ruta' },
-    'Los Cardos|Las Parejas':         { km: 20,  tipo: 'ruta' },
-    // Ruta de regreso tramo a tramo
-    'Las Parejas|El Trébol':          { km: 35,  tipo: 'ruta' },
-    'El Trébol|Carlos Pellegrini':    { km: 18,  tipo: 'ruta' },
-    'Carlos Pellegrini|San Jorge':    { km: 22,  tipo: 'ruta' },
-    'San Jorge|Las Varillas':         { km: 95,  tipo: 'ruta' },
-    // Saltos directos desde Las Varillas
-    'Las Varillas|El Trébol':         { km: 130, tipo: 'ruta' },
-    'Las Varillas|San Jorge':         { km: 165, tipo: 'ruta' },
-    'Las Varillas|Carlos Pellegrini': { km: 148, tipo: 'ruta' },
-    'Las Varillas|Las Parejas':       { km: 115, tipo: 'ruta' },
-    'Las Varillas|Los Cardos':        { km: 95,  tipo: 'ruta' },
-    'Las Varillas|Piamonte':          { km: 83,  tipo: 'ruta' },
+    'Las Varillas|El Fortín':         { km: 44,  tipo: 'ruta' },
     'Las Varillas|Landeta':           { km: 68,  tipo: 'ruta' },
-    'Las Varillas|El Fortín':         { km: 46,  tipo: 'ruta' },
-    // Otros tramos frecuentes
-    'Alicia|Las Parejas':             { km: 87,  tipo: 'ruta' },
-    'Alicia|San Jorge':               { km: 137, tipo: 'ruta' },
-    'El Fortín|Las Parejas':          { km: 69,  tipo: 'ruta' },
-    'Landeta|Las Parejas':            { km: 47,  tipo: 'ruta' },
-    'Piamonte|Las Parejas':           { km: 32,  tipo: 'ruta' },
-    'San Jorge|El Trébol':            { km: 40,  tipo: 'ruta' },
-    'El Trébol|Las Varillas':         { km: 130, tipo: 'ruta' },
+    'Las Varillas|Piamonte':          { km: 93,  tipo: 'ruta' },
+    'Las Varillas|Los Cardos':        { km: 130, tipo: 'ruta' },
+    'Las Varillas|Las Parejas':       { km: 173, tipo: 'ruta' },
+    'Las Varillas|El Trébol':         { km: 120, tipo: 'ruta' },
+    'Las Varillas|Carlos Pellegrini': { km: 95,  tipo: 'ruta' },
+    'Las Varillas|San Jorge':         { km: 102, tipo: 'ruta' },
+    // Tramos consecutivos ruta de salida
+    'Alicia|El Fortín':               { km: 17,  tipo: 'ruta' },
+    'El Fortín|Landeta':              { km: 24,  tipo: 'ruta' },
+    'Landeta|Piamonte':               { km: 27,  tipo: 'ruta' },
+    'Piamonte|Los Cardos':            { km: 44,  tipo: 'ruta' },
+    'Los Cardos|Las Parejas':         { km: 43,  tipo: 'ruta' },
+    // Tramos consecutivos ruta de regreso
+    'Las Parejas|El Trébol':          { km: 60,  tipo: 'ruta' },
+    'El Trébol|Carlos Pellegrini':    { km: 20,  tipo: 'ruta' },
+    'Carlos Pellegrini|San Jorge':    { km: 22,  tipo: 'ruta' },
+    // Calculados por suma de tramos consecutivos
+    'Alicia|Landeta':                 { km: 41,  tipo: 'ruta' },
+    'Alicia|Piamonte':                { km: 68,  tipo: 'ruta' },
+    'Alicia|Los Cardos':              { km: 112, tipo: 'ruta' },
+    'Alicia|Las Parejas':             { km: 145, tipo: 'ruta' },
+    'El Fortín|Piamonte':             { km: 51,  tipo: 'ruta' },
+    'El Fortín|Los Cardos':           { km: 95,  tipo: 'ruta' },
+    'El Fortín|Las Parejas':          { km: 138, tipo: 'ruta' },
+    'Landeta|Los Cardos':             { km: 71,  tipo: 'ruta' },
+    'Landeta|Las Parejas':            { km: 114, tipo: 'ruta' },
+    'Piamonte|Las Parejas':           { km: 87,  tipo: 'ruta' },
+    'El Trébol|San Jorge':            { km: 42,  tipo: 'ruta' },
+    'San Jorge|Las Varillas':         { km: 102, tipo: 'ruta' },
   };
 
   function getDistancia(origen, destino) {
@@ -861,13 +866,15 @@
   ═══════════════════════════════════════════════════ */
   function renderTablaDistancias() {
     const pares = [
+      // Desde Las Varillas (directos)
       ['Las Varillas','Alicia'],['Las Varillas','El Fortín'],['Las Varillas','Landeta'],
       ['Las Varillas','Piamonte'],['Las Varillas','Los Cardos'],['Las Varillas','Las Parejas'],
       ['Las Varillas','El Trébol'],['Las Varillas','Carlos Pellegrini'],['Las Varillas','San Jorge'],
+      // Ruta de salida (tramos consecutivos)
       ['Alicia','El Fortín'],['El Fortín','Landeta'],['Landeta','Piamonte'],
       ['Piamonte','Los Cardos'],['Los Cardos','Las Parejas'],
+      // Ruta de regreso (tramos consecutivos)
       ['Las Parejas','El Trébol'],['El Trébol','Carlos Pellegrini'],['Carlos Pellegrini','San Jorge'],
-      ['San Jorge','Las Varillas'],
     ];
     document.getElementById('tabla-distancias').innerHTML = pares.map(([a,b]) => {
       const d = getDistancia(a,b);
