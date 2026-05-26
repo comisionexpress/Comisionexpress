@@ -15,6 +15,7 @@
     --accent: #f0c040;
     --green: #3ecf8e;
     --red: #f05c5c;
+    --blue: #4da3ff;
     --text: #e8ecf4;
     --muted: #7a84a0;
     --radius: 10px;
@@ -69,6 +70,8 @@
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 12px; text-align: center; }
   .stat-val { font-family: 'Space Mono', monospace; font-size: 18px; font-weight: 700; color: var(--accent); display: block; }
   .stat-val.green { color: var(--green); }
+  .stat-val.blue  { color: var(--blue); }
+  .stat-val.red   { color: var(--red); }
   .stat-label { font-size: 11px; color: var(--muted); margin-top: 3px; }
 
   .trip-item { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px; margin-bottom: 8px; }
@@ -82,18 +85,11 @@
   .badge-paid { background: rgba(62,207,142,0.15); color: var(--green); }
   .trip-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
   .wa-btn { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 6px; background: rgba(37,211,102,0.15); color: #25d366; font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid rgba(37,211,102,0.2); cursor: pointer; }
-
-  /* ── NUEVOS: botones WA destinatario ── */
-  .wa-btn-dest {
-    display: inline-flex; align-items: center; gap: 5px;
-    padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 700;
-    text-decoration: none; cursor: pointer; border: none; font-family: 'Manrope', sans-serif;
-  }
+  .wa-btn-dest { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; text-decoration: none; cursor: pointer; border: none; font-family: 'Manrope', sans-serif; }
   .wa-btn-camino  { background: rgba(240,192,64,0.12); color: var(--accent);  border: 1px solid rgba(240,192,64,0.25); }
   .wa-btn-llego   { background: rgba(10,132,255,0.12); color: #4da3ff;        border: 1px solid rgba(10,132,255,0.25); }
   .wa-dest-grupo  { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
   .wa-dest-label  { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; align-self: center; }
-
   .trip-client { font-size: 13px; color: var(--text); font-weight: 600; }
   .trip-note { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 4px; }
 
@@ -146,7 +142,7 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading-text { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--muted); }
 
-  /* CALCULADORA */
+  /* CALCULADORA TARIFA */
   .calc-slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
   .calc-slider-label { font-size: 12px; font-weight: 600; color: var(--muted); width: 70px; flex-shrink: 0; }
   .calc-km-val { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--accent); min-width: 60px; text-align: right; }
@@ -173,12 +169,50 @@
   .client-count { font-size: 11px; color: var(--muted); background: var(--surface); padding: 2px 8px; border-radius: 20px; font-weight: 600; }
   .client-meta { display: flex; gap: 12px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
   .client-total { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 700; }
-
   .back-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; color: var(--muted); font-size: 13px; font-weight: 700; cursor: pointer; margin-bottom: 14px; padding: 0; font-family: 'Manrope', sans-serif; }
   .back-btn:hover { color: var(--text); }
   .client-detail-header { margin-bottom: 14px; }
   .client-detail-name { font-size: 20px; font-weight: 800; color: var(--text); }
   .client-detail-wa { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+  /* ═══════════════════════════════════════════
+     COMBUSTIBLE
+  ═══════════════════════════════════════════ */
+  .fuel-tipo-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .fuel-tipo-btn { flex: 1; padding: 10px 6px; border-radius: 7px; font-size: 12px; font-weight: 700; border: 2px solid var(--border); background: var(--surface2); color: var(--muted); cursor: pointer; transition: all 0.15s; text-align: center; font-family: 'Manrope', sans-serif; line-height: 1.4; }
+  .fuel-tipo-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(240,192,64,0.08); }
+
+  .fuel-result-box { background: rgba(77,163,255,0.06); border: 1px solid rgba(77,163,255,0.18); border-radius: var(--radius); padding: 14px; margin-top: 12px; }
+  .fuel-result-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue); margin-bottom: 10px; }
+  .fuel-result-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid rgba(77,163,255,0.1); font-size: 13px; color: var(--muted); }
+  .fuel-result-row:last-child { border-bottom: none; }
+  .fuel-result-row .val { font-family: 'Space Mono', monospace; font-weight: 700; color: var(--text); }
+
+  .fuel-total-box { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: rgba(240,192,64,0.07); border: 1px solid rgba(240,192,64,0.22); border-radius: 8px; margin-top: 10px; }
+  .fuel-total-box .label { font-weight: 800; font-size: 14px; }
+  .fuel-total-box .val { font-family: 'Space Mono', monospace; font-size: 22px; font-weight: 700; color: var(--accent); }
+
+  .rendimiento-display { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin: 10px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .rend-item { text-align: center; }
+  .rend-val { font-family: 'Space Mono', monospace; font-size: 18px; font-weight: 700; color: var(--green); }
+  .rend-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .info-banner { background: rgba(77,163,255,0.05); border: 1px solid rgba(77,163,255,0.15); border-radius: 8px; padding: 10px 13px; margin-bottom: 12px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .info-banner strong { color: var(--blue); }
+
+  .tramo-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 13px; background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; margin-bottom: 6px; }
+  .tramo-ruta-txt { font-size: 13px; font-weight: 700; color: var(--text); }
+  .tramo-km-txt { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--muted); font-weight: 700; }
+
+  .fuel-jornada-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 11px 13px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+  .fuel-jornada-ruta { font-size: 13px; color: var(--text); font-weight: 600; }
+  .fuel-jornada-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .fuel-jornada-vals { text-align: right; }
+  .fuel-jornada-litros { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--blue); font-weight: 700; }
+  .fuel-jornada-rango { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .tipo-badge-ruta   { display:inline-block; font-size:10px; font-weight:700; padding:1px 6px; border-radius:10px; background:rgba(62,207,142,0.12); color:var(--green); }
+  .tipo-badge-ciudad { display:inline-block; font-size:10px; font-weight:700; padding:1px 6px; border-radius:10px; background:rgba(77,163,255,0.12); color:var(--blue); }
 
   @media (max-width: 360px) {
     .form-row { grid-template-columns: 1fr; }
@@ -207,6 +241,7 @@
   <button class="tab" onclick="showTab('clientes',this)">👥 Clientes</button>
   <button class="tab" onclick="showTab('resumen',this)">💰 Resumen</button>
   <button class="tab" onclick="showTab('ruta',this)">🗺️ Ruta</button>
+  <button class="tab" onclick="showTab('combustible',this)">⛽ Combustible</button>
   <button class="tab" onclick="showTab('tarifa',this)">🧮 Tarifa</button>
   <button class="tab" onclick="showTab('consejos',this)">💡 Tips</button>
 </div>
@@ -217,15 +252,10 @@
     <div class="card-title">Nuevo Envío</div>
     <div class="form-grid">
       <div><label>Fecha</label><input type="date" id="f-fecha"></div>
-
-      <!-- REMITENTE -->
       <div><label>Cliente / Remitente</label><input type="text" id="f-cliente" placeholder="Nombre del cliente"></div>
       <div><label>WhatsApp Remitente (con 549...)</label><input type="tel" id="f-wa" placeholder="5493412345678"></div>
-
-      <!-- ── NUEVO: Destinatario ── -->
       <div><label>Destinatario</label><input type="text" id="f-dest-nombre" placeholder="Nombre de quien recibe"></div>
       <div><label>WhatsApp Destinatario (con 549...)</label><input type="tel" id="f-dest-wa" placeholder="5493412345678"></div>
-
       <div class="form-row">
         <div>
           <label>Origen</label>
@@ -339,6 +369,172 @@
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════
+     COMBUSTIBLE
+═══════════════════════════════════════════ -->
+<div id="tab-combustible" class="section">
+
+  <!-- Configuración -->
+  <div class="card">
+    <div class="card-title">⚙️ Configuración del Vehículo</div>
+    <div class="info-banner">
+      <strong>Sin GPS ni costos extra.</strong> Las distancias están pre-cargadas según las rutas reales de Santa Fe. Ajustá el precio del combustible y el rendimiento cuando cambie.
+    </div>
+    <div class="form-grid">
+      <div>
+        <label>Precio del combustible ($ / litro)</label>
+        <input type="number" id="fuel-precio-litro" placeholder="Ej: 1450" min="0" step="10"
+               oninput="guardarConfigCombustible(); calcularJornada(); calcularManual();">
+      </div>
+      <div>
+        <label>Tipo</label>
+        <select id="fuel-tipo-combustible" onchange="guardarConfigCombustible()">
+          <option value="nafta">Nafta</option>
+          <option value="diesel">Diesel</option>
+          <option value="gnc">GNC</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-top:14px">
+      <label style="margin-bottom:8px;display:block">Modo de conducción</label>
+      <div class="fuel-tipo-row">
+        <button class="fuel-tipo-btn active" id="btn-tipo-mixto"  onclick="setTipoRecorrido('mixto')">🔄 Mixto<br><small style="font-weight:400;font-size:10px">ciudad + ruta</small></button>
+        <button class="fuel-tipo-btn"        id="btn-tipo-ruta"   onclick="setTipoRecorrido('ruta')">🛣️ Ruta<br><small style="font-weight:400;font-size:10px">interurbano</small></button>
+        <button class="fuel-tipo-btn"        id="btn-tipo-ciudad" onclick="setTipoRecorrido('ciudad')">🏙️ Ciudad<br><small style="font-weight:400;font-size:10px">urbano</small></button>
+      </div>
+    </div>
+
+    <div class="rendimiento-display" id="rendimiento-display">
+      <div class="rend-item">
+        <div class="rend-val" id="rend-val-actual">13</div>
+        <div class="rend-label">km/litro promedio</div>
+      </div>
+      <div class="rend-item">
+        <div class="rend-val" style="color:var(--muted);font-size:14px" id="rend-rango">11–13 km/L</div>
+        <div class="rend-label">rango configurado</div>
+      </div>
+    </div>
+
+    <div class="form-row" style="margin-bottom:8px">
+      <div>
+        <label>Ciudad mín (km/L)</label>
+        <input type="number" id="rend-ciudad-min" value="11" min="1" max="30" step="0.5"
+               oninput="guardarConfigCombustible(); actualizarRendDisplay(); calcularJornada(); calcularManual();">
+      </div>
+      <div>
+        <label>Ciudad máx (km/L)</label>
+        <input type="number" id="rend-ciudad-max" value="13" min="1" max="30" step="0.5"
+               oninput="guardarConfigCombustible(); actualizarRendDisplay(); calcularJornada(); calcularManual();">
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label>Ruta mín (km/L)</label>
+        <input type="number" id="rend-ruta-min" value="15" min="1" max="40" step="0.5"
+               oninput="guardarConfigCombustible(); actualizarRendDisplay(); calcularJornada(); calcularManual();">
+      </div>
+      <div>
+        <label>Ruta máx (km/L)</label>
+        <input type="number" id="rend-ruta-max" value="17" min="1" max="40" step="0.5"
+               oninput="guardarConfigCombustible(); actualizarRendDisplay(); calcularJornada(); calcularManual();">
+      </div>
+    </div>
+  </div>
+
+  <!-- Calculadora por tramo -->
+  <div class="card">
+    <div class="card-title">🧮 Calculadora por Tramo</div>
+    <div class="form-row" style="margin-bottom:8px">
+      <div>
+        <label>Origen</label>
+        <select id="calc-origen" onchange="calcularManual()">
+          <option value="">Seleccionar</option>
+          <option>Las Varillas</option><option>Alicia</option><option>El Fortín</option>
+          <option>Landeta</option><option>Piamonte</option><option>Los Cardos</option>
+          <option>Las Parejas</option><option>El Trébol</option><option>Carlos Pellegrini</option>
+          <option>San Jorge</option>
+        </select>
+      </div>
+      <div>
+        <label>Destino</label>
+        <select id="calc-destino" onchange="calcularManual()">
+          <option value="">Seleccionar</option>
+          <option>Las Varillas</option><option>Alicia</option><option>El Fortín</option>
+          <option>Landeta</option><option>Piamonte</option><option>Los Cardos</option>
+          <option>Las Parejas</option><option>El Trébol</option><option>Carlos Pellegrini</option>
+          <option>San Jorge</option>
+        </select>
+      </div>
+    </div>
+    <div id="calc-manual-empty" style="text-align:center;padding:14px;color:var(--muted);font-size:13px">
+      Seleccioná origen y destino para calcular
+    </div>
+    <div id="calc-manual-result" style="display:none">
+      <div class="fuel-result-box">
+        <div class="fuel-result-title">⛽ Resultado del tramo</div>
+        <div class="fuel-result-row"><span>Distancia</span><span class="val" id="cm-km">—</span></div>
+        <div class="fuel-result-row"><span>Tipo de tramo</span><span class="val" id="cm-tipo">—</span></div>
+        <div class="fuel-result-row"><span>Rendimiento</span><span class="val" id="cm-rendimiento">—</span></div>
+        <div class="fuel-result-row"><span>Litros necesarios</span><span class="val" id="cm-litros" style="color:var(--blue)">—</span></div>
+        <div class="fuel-result-row"><span>Precio por litro</span><span class="val" id="cm-precio-litro">—</span></div>
+      </div>
+      <div class="fuel-total-box">
+        <span class="label">💵 Costo estimado</span>
+        <span class="val" id="cm-costo-total">$—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cálculo por jornada -->
+  <div class="card">
+    <div class="card-title">📅 Combustible de la Jornada</div>
+    <div class="filter-row">
+      <span class="filter-label">Fecha:</span>
+      <input type="date" id="jornada-fecha" onchange="calcularJornada()">
+      <button class="btn btn-ghost btn-sm" onclick="setJornadaHoy()">Hoy</button>
+    </div>
+
+    <div id="jornada-sin-viajes" class="empty" style="display:none">
+      <div class="empty-icon">📦</div>Sin envíos para esta fecha
+    </div>
+
+    <div id="jornada-con-viajes" style="display:none">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px">Envíos del día</div>
+      <div id="jornada-tramos"></div>
+
+      <div class="stats-row" style="margin-top:12px">
+        <div class="stat-card"><span class="stat-val blue" id="jornada-km-total">0</span><div class="stat-label">Km totales</div></div>
+        <div class="stat-card"><span class="stat-val blue" id="jornada-litros-min">0 L</span><div class="stat-label">Litros mín.</div></div>
+        <div class="stat-card"><span class="stat-val blue" id="jornada-litros-max">0 L</span><div class="stat-label">Litros máx.</div></div>
+      </div>
+
+      <div class="fuel-total-box" style="margin-top:0">
+        <div>
+          <div class="label">💵 Costo combustible</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px" id="jornada-rango-litros">— litros</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px;color:var(--muted)">mín — máx</div>
+          <div style="font-family:'Space Mono',monospace;font-size:15px;color:var(--green);font-weight:700" id="jornada-costo-min">$—</div>
+          <div style="font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:var(--accent)" id="jornada-costo-max">$—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de distancias -->
+  <div class="card">
+    <div class="card-title">📍 Distancias de Referencia</div>
+    <div class="info-banner" style="margin-bottom:10px">
+      Distancias aproximadas por ruta real (km). <span class="tipo-badge-ruta">🛣️ Ruta</span> usa rendimiento interurbano, <span class="tipo-badge-ciudad">🏙️ Ciudad</span> usa rendimiento urbano.
+    </div>
+    <div id="tabla-distancias"></div>
+  </div>
+
+</div>
+<!-- FIN COMBUSTIBLE -->
+
 <!-- TARIFA -->
 <div id="tab-tarifa" class="section">
   <div class="card">
@@ -403,7 +599,6 @@
       <input type="hidden" id="e-id">
       <div><label>Cliente</label><input type="text" id="e-cliente"></div>
       <div><label>WhatsApp Remitente</label><input type="tel" id="e-wa"></div>
-      <!-- ── NUEVO: editar destinatario ── -->
       <div><label>Destinatario</label><input type="text" id="e-dest-nombre"></div>
       <div><label>WhatsApp Destinatario</label><input type="tel" id="e-dest-wa"></div>
       <div><label>Precio ($)</label><input type="number" id="e-precio"></div>
@@ -439,141 +634,407 @@
   const rutaSalida  = ['Las Varillas','Alicia','El Fortín','Landeta','Piamonte','Los Cardos','Las Parejas'];
   const rutaRegreso = ['El Trébol','Carlos Pellegrini','San Jorge','Las Varillas'];
 
+  /* ═══════════════════════════════════════════════════
+     TABLA DE DISTANCIAS
+     tipo 'ruta'   → rendimiento interurbano (15–17)
+     tipo 'ciudad' → rendimiento urbano (11–13)
+  ═══════════════════════════════════════════════════ */
+  const DISTANCIAS = {
+    // Ruta de salida tramo a tramo
+    'Las Varillas|Alicia':            { km: 28,  tipo: 'ruta' },
+    'Alicia|El Fortín':               { km: 18,  tipo: 'ruta' },
+    'El Fortín|Landeta':              { km: 22,  tipo: 'ruta' },
+    'Landeta|Piamonte':               { km: 15,  tipo: 'ruta' },
+    'Piamonte|Los Cardos':            { km: 12,  tipo: 'ruta' },
+    'Los Cardos|Las Parejas':         { km: 20,  tipo: 'ruta' },
+    // Ruta de regreso tramo a tramo
+    'Las Parejas|El Trébol':          { km: 35,  tipo: 'ruta' },
+    'El Trébol|Carlos Pellegrini':    { km: 18,  tipo: 'ruta' },
+    'Carlos Pellegrini|San Jorge':    { km: 22,  tipo: 'ruta' },
+    'San Jorge|Las Varillas':         { km: 95,  tipo: 'ruta' },
+    // Saltos directos desde Las Varillas
+    'Las Varillas|El Trébol':         { km: 130, tipo: 'ruta' },
+    'Las Varillas|San Jorge':         { km: 165, tipo: 'ruta' },
+    'Las Varillas|Carlos Pellegrini': { km: 148, tipo: 'ruta' },
+    'Las Varillas|Las Parejas':       { km: 115, tipo: 'ruta' },
+    'Las Varillas|Los Cardos':        { km: 95,  tipo: 'ruta' },
+    'Las Varillas|Piamonte':          { km: 83,  tipo: 'ruta' },
+    'Las Varillas|Landeta':           { km: 68,  tipo: 'ruta' },
+    'Las Varillas|El Fortín':         { km: 46,  tipo: 'ruta' },
+    // Otros tramos frecuentes
+    'Alicia|Las Parejas':             { km: 87,  tipo: 'ruta' },
+    'Alicia|San Jorge':               { km: 137, tipo: 'ruta' },
+    'El Fortín|Las Parejas':          { km: 69,  tipo: 'ruta' },
+    'Landeta|Las Parejas':            { km: 47,  tipo: 'ruta' },
+    'Piamonte|Las Parejas':           { km: 32,  tipo: 'ruta' },
+    'San Jorge|El Trébol':            { km: 40,  tipo: 'ruta' },
+    'El Trébol|Las Varillas':         { km: 130, tipo: 'ruta' },
+  };
+
+  function getDistancia(origen, destino) {
+    return DISTANCIAS[`${origen}|${destino}`] || DISTANCIAS[`${destino}|${origen}`] || null;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     CONFIG COMBUSTIBLE (guardada en localStorage)
+  ═══════════════════════════════════════════════════ */
+  function getConfig() {
+    try {
+      const s = localStorage.getItem('fuel_cfg');
+      return s ? JSON.parse(s) : {
+        precioLitro: 1450, tipoCombustible: 'nafta', tipoRecorrido: 'mixto',
+        rendCiudadMin: 11, rendCiudadMax: 13, rendRutaMin: 15, rendRutaMax: 17
+      };
+    } catch(e) {
+      return { precioLitro: 1450, tipoCombustible: 'nafta', tipoRecorrido: 'mixto',
+               rendCiudadMin: 11, rendCiudadMax: 13, rendRutaMin: 15, rendRutaMax: 17 };
+    }
+  }
+
+  window.guardarConfigCombustible = () => {
+    const prev = getConfig();
+    const cfg = {
+      precioLitro:     parseFloat(document.getElementById('fuel-precio-litro').value) || 1450,
+      tipoCombustible: document.getElementById('fuel-tipo-combustible').value,
+      tipoRecorrido:   prev.tipoRecorrido,
+      rendCiudadMin:   parseFloat(document.getElementById('rend-ciudad-min').value) || 11,
+      rendCiudadMax:   parseFloat(document.getElementById('rend-ciudad-max').value) || 13,
+      rendRutaMin:     parseFloat(document.getElementById('rend-ruta-min').value)   || 15,
+      rendRutaMax:     parseFloat(document.getElementById('rend-ruta-max').value)   || 17,
+    };
+    localStorage.setItem('fuel_cfg', JSON.stringify(cfg));
+    actualizarRendDisplay();
+  };
+
+  window.setTipoRecorrido = (tipo) => {
+    const cfg = getConfig();
+    cfg.tipoRecorrido = tipo;
+    localStorage.setItem('fuel_cfg', JSON.stringify(cfg));
+    ['mixto','ruta','ciudad'].forEach(t =>
+      document.getElementById('btn-tipo-'+t).classList.toggle('active', t === tipo)
+    );
+    actualizarRendDisplay();
+    calcularManual();
+    calcularJornada();
+  };
+
+  window.actualizarRendDisplay = () => {
+    const cfg = getConfig();
+    const t = cfg.tipoRecorrido;
+    let rmin, rmax;
+    if      (t === 'ruta')   { rmin = cfg.rendRutaMin;   rmax = cfg.rendRutaMax; }
+    else if (t === 'ciudad') { rmin = cfg.rendCiudadMin; rmax = cfg.rendCiudadMax; }
+    else { // mixto: promedio
+      rmin = ((cfg.rendCiudadMin + cfg.rendRutaMin) / 2).toFixed(1);
+      rmax = ((cfg.rendCiudadMax + cfg.rendRutaMax) / 2).toFixed(1);
+    }
+    const prom = ((parseFloat(rmin) + parseFloat(rmax)) / 2).toFixed(1);
+    document.getElementById('rend-val-actual').textContent = prom;
+    document.getElementById('rend-rango').textContent = `${rmin}–${rmax} km/L`;
+  };
+
+  // Devuelve { min, max, prom } según tipo de tramo y modo de conducción
+  function getRend(tipoTramo) {
+    const cfg = getConfig();
+    const modo = cfg.tipoRecorrido;
+    let rmin, rmax;
+    if (modo === 'ruta') {
+      rmin = cfg.rendRutaMin; rmax = cfg.rendRutaMax;
+    } else if (modo === 'ciudad') {
+      rmin = cfg.rendCiudadMin; rmax = cfg.rendCiudadMax;
+    } else {
+      // mixto: usar el rendimiento que corresponde al tipo del tramo
+      if (tipoTramo === 'ruta') { rmin = cfg.rendRutaMin; rmax = cfg.rendRutaMax; }
+      else                      { rmin = cfg.rendCiudadMin; rmax = cfg.rendCiudadMax; }
+    }
+    return { min: parseFloat(rmin), max: parseFloat(rmax), prom: (parseFloat(rmin) + parseFloat(rmax)) / 2 };
+  }
+
+  /* ═══════════════════════════════════════════════════
+     CALCULADORA MANUAL
+  ═══════════════════════════════════════════════════ */
+  window.calcularManual = () => {
+    const origen  = document.getElementById('calc-origen').value;
+    const destino = document.getElementById('calc-destino').value;
+    const resEl   = document.getElementById('calc-manual-result');
+    const emptyEl = document.getElementById('calc-manual-empty');
+
+    if (!origen || !destino) {
+      resEl.style.display = 'none'; emptyEl.style.display = 'block';
+      emptyEl.textContent = 'Seleccioná origen y destino para calcular';
+      return;
+    }
+    if (origen === destino) {
+      resEl.style.display = 'none'; emptyEl.style.display = 'block';
+      emptyEl.textContent = 'El origen y el destino son iguales';
+      return;
+    }
+
+    const data = getDistancia(origen, destino);
+    if (!data) {
+      resEl.style.display = 'none'; emptyEl.style.display = 'block';
+      emptyEl.innerHTML = '<span style="color:var(--red)">⚠️ Distancia no cargada para este par. Podés pedirle a Claude que la agregue.</span>';
+      return;
+    }
+
+    const cfg = getConfig();
+    const r   = getRend(data.tipo);
+    const litros = data.km / r.prom;
+    const costo  = litros * cfg.precioLitro;
+    const fmt    = n => '$' + Math.round(n).toLocaleString('es-AR');
+
+    document.getElementById('cm-km').textContent          = data.km + ' km';
+    document.getElementById('cm-tipo').textContent        = data.tipo === 'ruta' ? '🛣️ Ruta' : '🏙️ Ciudad';
+    document.getElementById('cm-rendimiento').textContent = r.prom.toFixed(1) + ' km/L';
+    document.getElementById('cm-litros').textContent      = litros.toFixed(2) + ' L';
+    document.getElementById('cm-precio-litro').textContent = fmt(cfg.precioLitro) + ' /L';
+    document.getElementById('cm-costo-total').textContent  = fmt(costo);
+
+    resEl.style.display = 'block'; emptyEl.style.display = 'none';
+  };
+
+  /* ═══════════════════════════════════════════════════
+     CÁLCULO DE JORNADA
+  ═══════════════════════════════════════════════════ */
+  window.calcularJornada = () => {
+    const fecha = document.getElementById('jornada-fecha').value;
+    if (!fecha) return;
+    const vF      = viajes.filter(v => v.fecha === fecha);
+    const sinEl   = document.getElementById('jornada-sin-viajes');
+    const conEl   = document.getElementById('jornada-con-viajes');
+
+    if (!vF.length) { sinEl.style.display = 'block'; conEl.style.display = 'none'; return; }
+    sinEl.style.display = 'none'; conEl.style.display = 'block';
+
+    const cfg = getConfig();
+    let kmTotal = 0, litMin = 0, litMax = 0;
+
+    const html = vF.map(v => {
+      const data = getDistancia(v.origen, v.destino);
+      if (!data) {
+        return `<div class="fuel-jornada-item">
+          <div>
+            <div class="fuel-jornada-ruta">${v.origen} → ${v.destino}</div>
+            <div class="fuel-jornada-sub">${v.cliente}</div>
+          </div>
+          <div style="color:var(--red);font-size:12px">sin distancia</div>
+        </div>`;
+      }
+      const r    = getRend(data.tipo);
+      const lMin = data.km / r.max;   // con mejor rendimiento → menos litros
+      const lMax = data.km / r.min;   // con peor rendimiento  → más litros
+      const lProm= data.km / r.prom;
+      kmTotal += data.km; litMin += lMin; litMax += lMax;
+      const badge = data.tipo === 'ruta'
+        ? `<span class="tipo-badge-ruta">🛣️ Ruta</span>`
+        : `<span class="tipo-badge-ciudad">🏙️ Ciudad</span>`;
+      return `<div class="fuel-jornada-item">
+        <div>
+          <div class="fuel-jornada-ruta">${v.origen} → ${v.destino}</div>
+          <div class="fuel-jornada-sub">${v.cliente} · ${data.km} km ${badge}</div>
+        </div>
+        <div class="fuel-jornada-vals">
+          <div class="fuel-jornada-litros">≈${lProm.toFixed(2)} L</div>
+          <div class="fuel-jornada-rango">${lMin.toFixed(1)}–${lMax.toFixed(1)} L</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    document.getElementById('jornada-tramos').innerHTML = html;
+    document.getElementById('jornada-km-total').textContent   = kmTotal + ' km';
+    document.getElementById('jornada-litros-min').textContent = litMin.toFixed(1) + ' L';
+    document.getElementById('jornada-litros-max').textContent = litMax.toFixed(1) + ' L';
+
+    const fmt = n => '$' + Math.round(n).toLocaleString('es-AR');
+    document.getElementById('jornada-rango-litros').textContent = `${litMin.toFixed(1)} – ${litMax.toFixed(1)} litros`;
+    document.getElementById('jornada-costo-min').textContent = fmt(litMin * cfg.precioLitro);
+    document.getElementById('jornada-costo-max').textContent = fmt(litMax * cfg.precioLitro);
+  };
+
+  window.setJornadaHoy = () => {
+    document.getElementById('jornada-fecha').value = hoy();
+    calcularJornada();
+  };
+
+  /* ═══════════════════════════════════════════════════
+     TABLA DE DISTANCIAS VISIBLE
+  ═══════════════════════════════════════════════════ */
+  function renderTablaDistancias() {
+    const pares = [
+      ['Las Varillas','Alicia'],['Las Varillas','El Fortín'],['Las Varillas','Landeta'],
+      ['Las Varillas','Piamonte'],['Las Varillas','Los Cardos'],['Las Varillas','Las Parejas'],
+      ['Las Varillas','El Trébol'],['Las Varillas','Carlos Pellegrini'],['Las Varillas','San Jorge'],
+      ['Alicia','El Fortín'],['El Fortín','Landeta'],['Landeta','Piamonte'],
+      ['Piamonte','Los Cardos'],['Los Cardos','Las Parejas'],
+      ['Las Parejas','El Trébol'],['El Trébol','Carlos Pellegrini'],['Carlos Pellegrini','San Jorge'],
+      ['San Jorge','Las Varillas'],
+    ];
+    document.getElementById('tabla-distancias').innerHTML = pares.map(([a,b]) => {
+      const d = getDistancia(a,b);
+      if (!d) return '';
+      const badge = d.tipo === 'ruta'
+        ? `<span class="tipo-badge-ruta">🛣️ Ruta</span>`
+        : `<span class="tipo-badge-ciudad">🏙️ Ciudad</span>`;
+      return `<div class="tramo-item">
+        <div>
+          <div class="tramo-ruta-txt">${a} → ${b}</div>
+          <div style="margin-top:4px">${badge}</div>
+        </div>
+        <div class="tramo-km-txt">${d.km} km</div>
+      </div>`;
+    }).join('');
+  }
+
+  /* ═══════════════════════════════════════════════════
+     INIT COMBUSTIBLE
+  ═══════════════════════════════════════════════════ */
+  function initCombustible() {
+    const cfg = getConfig();
+    document.getElementById('fuel-precio-litro').value     = cfg.precioLitro;
+    document.getElementById('fuel-tipo-combustible').value = cfg.tipoCombustible;
+    document.getElementById('rend-ciudad-min').value = cfg.rendCiudadMin;
+    document.getElementById('rend-ciudad-max').value = cfg.rendCiudadMax;
+    document.getElementById('rend-ruta-min').value   = cfg.rendRutaMin;
+    document.getElementById('rend-ruta-max').value   = cfg.rendRutaMax;
+    ['mixto','ruta','ciudad'].forEach(t =>
+      document.getElementById('btn-tipo-'+t).classList.toggle('active', t === cfg.tipoRecorrido)
+    );
+    actualizarRendDisplay();
+    document.getElementById('jornada-fecha').value = hoy();
+    renderTablaDistancias();
+  }
+
+  /* ═══════════════════════════════════════════════════
+     FUNCIONES ORIGINALES SIN CAMBIOS
+  ═══════════════════════════════════════════════════ */
   function hoy() { return new Date().toISOString().split('T')[0]; }
   function formatFecha(f) { const [y,m,d] = f.split('-'); return `${d}/${m}/${y}`; }
   function setSyncState(s) { document.getElementById('syncDot').className = 'sync-dot ' + s; }
+  window.hoy = hoy;
 
-  // ── NUEVO: abrir WhatsApp con mensaje predefinido ──
   function abrirWA(numero, mensaje) {
     const limpio = numero.replace(/\D/g, '');
     window.open(`https://wa.me/${limpio}?text=${encodeURIComponent(mensaje)}`, '_blank');
   }
+  window.abrirWA = abrirWA;
 
-  // Init
   document.getElementById('navDate').textContent = new Date().toLocaleDateString('es-AR',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();
   document.getElementById('f-fecha').value = hoy();
   document.getElementById('resumen-fecha').value = hoy();
   document.getElementById('filtro-fecha').value = hoy();
 
   document.getElementById('f-origen').addEventListener('change', function() {
-    document.getElementById('origen-custom').style.display = this.value==='__otro__'?'block':'none';
+    document.getElementById('origen-custom').style.display = this.value === '__otro__' ? 'block' : 'none';
   });
   document.getElementById('f-destino').addEventListener('change', function() {
-    document.getElementById('destino-custom').style.display = this.value==='__otro__'?'block':'none';
+    document.getElementById('destino-custom').style.display = this.value === '__otro__' ? 'block' : 'none';
   });
 
   function getOrigen() {
     const s = document.getElementById('f-origen').value;
-    return s==='__otro__' ? document.getElementById('f-origen-custom').value.trim() : s;
+    return s === '__otro__' ? document.getElementById('f-origen-custom').value.trim() : s;
   }
   function getDestino() {
     const s = document.getElementById('f-destino').value;
-    return s==='__otro__' ? document.getElementById('f-destino-custom').value.trim() : s;
+    return s === '__otro__' ? document.getElementById('f-destino-custom').value.trim() : s;
   }
 
-  // Tabs
   window.showTab = (id, btn) => {
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById('tab-'+id).classList.add('active');
-    if(btn) btn.classList.add('active');
-    if(id==='ruta') renderRuta();
-    if(id==='clientes') renderClientes();
+    if (btn) btn.classList.add('active');
+    if (id === 'ruta')        renderRuta();
+    if (id === 'clientes')    renderClientes();
+    if (id === 'combustible') { calcularJornada(); calcularManual(); }
   };
 
-  // Listeners en tiempo real
   onSnapshot(query(collection(db,'viajes'), orderBy('id','desc')), snap => {
-    viajes = snap.docs.map(d=>({...d.data(), _docId:d.id}));
+    viajes = snap.docs.map(d => ({...d.data(), _docId: d.id}));
     renderViajes(); renderResumen(); renderRuta(); renderClientes();
     setSyncState('ok');
     document.getElementById('loadingScreen').classList.add('hidden');
   }, () => setSyncState('error'));
 
   onSnapshot(query(collection(db,'gastos'), orderBy('id','desc')), snap => {
-    gastos = snap.docs.map(d=>({...d.data(), _docId:d.id}));
+    gastos = snap.docs.map(d => ({...d.data(), _docId: d.id}));
     renderResumen();
   });
 
-  // Guardar viaje — ahora incluye destNombre y destWa
   window.guardarViaje = async () => {
     const v = {
       id: Date.now(),
-      fecha: document.getElementById('f-fecha').value,
-      cliente: document.getElementById('f-cliente').value.trim(),
-      wa: document.getElementById('f-wa').value.trim(),
-      // ── NUEVO ──
+      fecha:      document.getElementById('f-fecha').value,
+      cliente:    document.getElementById('f-cliente').value.trim(),
+      wa:         document.getElementById('f-wa').value.trim(),
       destNombre: document.getElementById('f-dest-nombre').value.trim(),
       destWa:     document.getElementById('f-dest-wa').value.trim(),
-      // ───────────
-      origen: getOrigen(),
-      destino: getDestino(),
-      dirRetiro: document.getElementById('f-dir-retiro').value.trim(),
+      origen:     getOrigen(),
+      destino:    getDestino(),
+      dirRetiro:  document.getElementById('f-dir-retiro').value.trim(),
       dirEntrega: document.getElementById('f-dir-entrega').value.trim(),
-      precio: parseFloat(document.getElementById('f-precio').value)||0,
-      estado: document.getElementById('f-estado').value,
-      nota: document.getElementById('f-nota').value.trim(),
+      precio:     parseFloat(document.getElementById('f-precio').value) || 0,
+      estado:     document.getElementById('f-estado').value,
+      nota:       document.getElementById('f-nota').value.trim(),
     };
-    if(!v.cliente||!v.origen||!v.destino||!v.precio){ alert('Completá: Cliente, Origen, Destino y Precio.'); return; }
+    if (!v.cliente || !v.origen || !v.destino || !v.precio) {
+      alert('Completá: Cliente, Origen, Destino y Precio.'); return;
+    }
     const btn = document.getElementById('btnGuardar');
-    btn.disabled=true; btn.textContent='Guardando...'; setSyncState('syncing');
+    btn.disabled = true; btn.textContent = 'Guardando...'; setSyncState('syncing');
     try {
       await addDoc(collection(db,'viajes'), v);
-      // limpiar campos
-      ['f-cliente','f-wa','f-dest-nombre','f-dest-wa','f-dir-retiro','f-dir-entrega','f-precio','f-nota'].forEach(id=>document.getElementById(id).value='');
-      document.getElementById('f-origen').value='';
-      document.getElementById('f-destino').value='';
-      document.getElementById('f-estado').value='pendiente';
-      document.getElementById('origen-custom').style.display='none';
-      document.getElementById('destino-custom').style.display='none';
-      document.getElementById('f-fecha').value=hoy();
+      ['f-cliente','f-wa','f-dest-nombre','f-dest-wa','f-dir-retiro','f-dir-entrega','f-precio','f-nota']
+        .forEach(id => document.getElementById(id).value = '');
+      document.getElementById('f-origen').value = '';
+      document.getElementById('f-destino').value = '';
+      document.getElementById('f-estado').value = 'pendiente';
+      document.getElementById('origen-custom').style.display = 'none';
+      document.getElementById('destino-custom').style.display = 'none';
+      document.getElementById('f-fecha').value = hoy();
       window.showTab('viajes', document.querySelectorAll('.tab')[1]);
     } catch(e) { alert('Error al guardar. Verificá tu conexión.'); setSyncState('error'); }
-    btn.disabled=false; btn.textContent='✓ Guardar Envío';
+    btn.disabled = false; btn.textContent = '✓ Guardar Envío';
   };
 
-  // Render viajes — agrega los 3 botones nuevos para el destinatario
+  function escJS(s) { return s.replace(/'/g, "\\'"); }
+
   function renderViajes() {
     const filtro = document.getElementById('filtro-fecha').value;
-    let lista = filtro ? viajes.filter(v=>v.fecha===filtro) : [...viajes];
-    lista.sort((a,b)=>b.id-a.id);
+    let lista = filtro ? viajes.filter(v => v.fecha === filtro) : [...viajes];
+    lista.sort((a,b) => b.id - a.id);
     const el = document.getElementById('viajes-list');
-    if(!lista.length){
-      el.innerHTML=`<div class="empty"><div class="empty-icon">📦</div>${filtro?'Sin envíos en esta fecha.':'No hay envíos registrados.'}</div>`;
+    if (!lista.length) {
+      el.innerHTML = `<div class="empty"><div class="empty-icon">📦</div>${filtro ? 'Sin envíos en esta fecha.' : 'No hay envíos registrados.'}</div>`;
       return;
     }
-    el.innerHTML = lista.map(v=>{
-      // Botón WA remitente (existente, sin cambios)
+    el.innerHTML = lista.map(v => {
       const waRemitente = v.wa
         ? `<a class="wa-btn" href="https://wa.me/${v.wa.replace(/\D/g,'')}?text=Hola%20${encodeURIComponent(v.cliente)}%2C%20tu%20env%C3%ADo%20fue%20entregado%20✓" target="_blank">💬 Entregado</a>`
         : '';
-
-      const badge = v.estado==='cobrado'
+      const badge = v.estado === 'cobrado'
         ? `<span class="badge badge-paid">✓ Cobrado</span>`
         : `<span class="badge badge-pending">⏳ Pendiente</span>`;
-
-      // ── NUEVO: botones WA destinatario ──
-      let seccionDestinatario = '';
+      let seccionDest = '';
       if (v.destWa) {
-        const nombre = v.destNombre || 'destinatario';
-        const dir    = v.dirEntrega  || v.destino;
-        const msgCamino  = `Hola ${nombre} 👋, tu pedido fue retirado y ya está en camino. ¡Pronto llegará a ${dir}!`;
-        const msgLlegando = `Hola ${nombre} 👋, soy el repartidor. Estoy llegando a *${dir}* con tu pedido. ¡En unos minutos estoy ahí!`;
-        seccionDestinatario = `
-          <div class="wa-dest-grupo">
-            <span class="wa-dest-label">Destinatario:</span>
-            <button class="wa-btn-dest wa-btn-camino" onclick="abrirWA('${v.destWa}','${escJS(msgCamino)}')">📦 En camino</button>
-            <button class="wa-btn-dest wa-btn-llego"  onclick="abrirWA('${v.destWa}','${escJS(msgLlegando)}')">🛵 Estoy llegando</button>
-          </div>`;
+        const nom = v.destNombre || 'destinatario';
+        const dir = v.dirEntrega || v.destino;
+        const m1  = `Hola ${nom} 👋, tu pedido fue retirado y ya está en camino. ¡Pronto llegará a ${dir}!`;
+        const m2  = `Hola ${nom} 👋, soy el repartidor. Estoy llegando a *${dir}* con tu pedido. ¡En unos minutos estoy ahí!`;
+        seccionDest = `<div class="wa-dest-grupo">
+          <span class="wa-dest-label">Destinatario:</span>
+          <button class="wa-btn-dest wa-btn-camino" onclick="abrirWA('${v.destWa}','${escJS(m1)}')">📦 En camino</button>
+          <button class="wa-btn-dest wa-btn-llego"  onclick="abrirWA('${v.destWa}','${escJS(m2)}')">🛵 Estoy llegando</button>
+        </div>`;
       } else if (v.destNombre) {
-        seccionDestinatario = `<div class="wa-dest-grupo"><span class="wa-dest-label" style="color:var(--muted)">Sin WA del destinatario</span></div>`;
+        seccionDest = `<div class="wa-dest-grupo"><span class="wa-dest-label" style="color:var(--muted)">Sin WA del destinatario</span></div>`;
       }
-
       return `<div class="trip-item">
         <div class="trip-header">
           <div>
             <div class="trip-client">${v.cliente}</div>
             <div class="trip-route"><span>${v.origen}</span><span class="arrow">→</span><span>${v.destino}</span></div>
-            ${v.destNombre ? `<div style="font-size:12px;color:var(--muted);margin-top:2px">📍 Destinatario: ${v.destNombre}</div>` : ''}
+            ${v.destNombre ? `<div style="font-size:12px;color:var(--muted);margin-top:2px">📍 ${v.destNombre}</div>` : ''}
           </div>
           <div class="trip-price">$${v.precio.toLocaleString('es-AR')}</div>
         </div>
@@ -583,92 +1044,82 @@
           ${v.dirEntrega ? `<span>🏠 ${v.dirEntrega}</span>` : ''}
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          ${badge}
-          ${v.nota?`<span class="trip-note">📝 ${v.nota}</span>`:''}
+          ${badge}${v.nota ? `<span class="trip-note">📝 ${v.nota}</span>` : ''}
         </div>
         <div class="trip-actions">
           ${waRemitente}
-          ${v.estado==='pendiente'
-            ?`<button class="btn btn-green btn-sm" onclick="marcarCobrado('${v._docId}')">✓ Cobrado</button>`
-            :`<button class="btn btn-ghost btn-sm" onclick="marcarPendiente('${v._docId}')">↩ Pendiente</button>`}
+          ${v.estado === 'pendiente'
+            ? `<button class="btn btn-green btn-sm" onclick="marcarCobrado('${v._docId}')">✓ Cobrado</button>`
+            : `<button class="btn btn-ghost btn-sm" onclick="marcarPendiente('${v._docId}')">↩ Pendiente</button>`}
           <button class="btn btn-ghost btn-sm" onclick="abrirEdicion('${v._docId}')">✏️ Editar</button>
           <button class="btn btn-danger" onclick="eliminarViaje('${v._docId}')">🗑</button>
         </div>
-        ${seccionDestinatario}
+        ${seccionDest}
       </div>`;
     }).join('');
   }
 
-  // Escapar comillas simples para onclick inline
-  function escJS(s) { return s.replace(/'/g, "\\'"); }
-
-  // Exponer abrirWA globalmente para los onclick inline
-  window.abrirWA = abrirWA;
-
-  window.marcarCobrado   = async id => { setSyncState('syncing'); await updateDoc(doc(db,'viajes',id),{estado:'cobrado'}); };
-  window.marcarPendiente = async id => { setSyncState('syncing'); await updateDoc(doc(db,'viajes',id),{estado:'pendiente'}); };
+  window.marcarCobrado   = async id => { setSyncState('syncing'); await updateDoc(doc(db,'viajes',id), {estado:'cobrado'}); };
+  window.marcarPendiente = async id => { setSyncState('syncing'); await updateDoc(doc(db,'viajes',id), {estado:'pendiente'}); };
   window.eliminarViaje   = async id => {
-    if(!confirm('¿Eliminar este envío?')) return;
+    if (!confirm('¿Eliminar este envío?')) return;
     setSyncState('syncing'); await deleteDoc(doc(db,'viajes',id));
   };
 
-  // Edición — ahora guarda también destNombre y destWa
   window.abrirEdicion = id => {
-    const v = viajes.find(x=>x._docId===id); if(!v) return;
+    const v = viajes.find(x => x._docId === id); if (!v) return;
     document.getElementById('e-id').value          = id;
     document.getElementById('e-cliente').value     = v.cliente;
-    document.getElementById('e-wa').value          = v.wa||'';
-    document.getElementById('e-dest-nombre').value = v.destNombre||'';
-    document.getElementById('e-dest-wa').value     = v.destWa||'';
+    document.getElementById('e-wa').value          = v.wa || '';
+    document.getElementById('e-dest-nombre').value = v.destNombre || '';
+    document.getElementById('e-dest-wa').value     = v.destWa || '';
     document.getElementById('e-precio').value      = v.precio;
     document.getElementById('e-estado').value      = v.estado;
-    document.getElementById('e-nota').value        = v.nota||'';
+    document.getElementById('e-nota').value        = v.nota || '';
     document.getElementById('editModal').classList.add('open');
   };
   window.cerrarModal = () => document.getElementById('editModal').classList.remove('open');
   window.guardarEdicion = async () => {
     const id = document.getElementById('e-id').value;
     setSyncState('syncing');
-    await updateDoc(doc(db,'viajes',id),{
+    await updateDoc(doc(db,'viajes',id), {
       cliente:    document.getElementById('e-cliente').value.trim(),
       wa:         document.getElementById('e-wa').value.trim(),
       destNombre: document.getElementById('e-dest-nombre').value.trim(),
       destWa:     document.getElementById('e-dest-wa').value.trim(),
-      precio:     parseFloat(document.getElementById('e-precio').value)||0,
+      precio:     parseFloat(document.getElementById('e-precio').value) || 0,
       estado:     document.getElementById('e-estado').value,
       nota:       document.getElementById('e-nota').value.trim(),
     });
     cerrarModal();
   };
 
-  // Gastos (sin cambios)
   window.agregarGasto = async () => {
-    const desc = document.getElementById('g-desc').value.trim();
-    const monto = parseFloat(document.getElementById('g-monto').value)||0;
-    if(!desc||!monto){ alert('Completá descripción y monto.'); return; }
-    const fecha = document.getElementById('resumen-fecha').value||hoy();
+    const desc  = document.getElementById('g-desc').value.trim();
+    const monto = parseFloat(document.getElementById('g-monto').value) || 0;
+    if (!desc || !monto) { alert('Completá descripción y monto.'); return; }
+    const fecha = document.getElementById('resumen-fecha').value || hoy();
     setSyncState('syncing');
-    await addDoc(collection(db,'gastos'),{id:Date.now(),fecha,desc,monto});
-    document.getElementById('g-desc').value='';
-    document.getElementById('g-monto').value='';
+    await addDoc(collection(db,'gastos'), {id: Date.now(), fecha, desc, monto});
+    document.getElementById('g-desc').value = '';
+    document.getElementById('g-monto').value = '';
   };
   window.eliminarGasto = async id => { setSyncState('syncing'); await deleteDoc(doc(db,'gastos',id)); };
 
-  // Resumen (sin cambios)
   function renderResumen() {
     const filtro = document.getElementById('resumen-fecha').value;
-    const vF = filtro ? viajes.filter(v=>v.fecha===filtro) : viajes;
-    const gF = filtro ? gastos.filter(g=>g.fecha===filtro) : gastos;
-    const cobrado    = vF.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
-    const pendiente  = vF.filter(v=>v.estado==='pendiente').reduce((s,v)=>s+v.precio,0);
-    const totalGastos = gF.reduce((s,g)=>s+g.monto,0);
+    const vF = filtro ? viajes.filter(v => v.fecha === filtro) : viajes;
+    const gF = filtro ? gastos.filter(g => g.fecha === filtro) : gastos;
+    const cobrado     = vF.filter(v => v.estado === 'cobrado').reduce((s,v)  => s + v.precio, 0);
+    const pendiente   = vF.filter(v => v.estado === 'pendiente').reduce((s,v) => s + v.precio, 0);
+    const totalGastos = gF.reduce((s,g) => s + g.monto, 0);
     const neta = cobrado - totalGastos;
     document.getElementById('stat-total').textContent     = vF.length;
-    document.getElementById('stat-cobrado').textContent   = '$'+cobrado.toLocaleString('es-AR');
-    document.getElementById('stat-pendiente').textContent = '$'+pendiente.toLocaleString('es-AR');
+    document.getElementById('stat-cobrado').textContent   = '$' + cobrado.toLocaleString('es-AR');
+    document.getElementById('stat-pendiente').textContent = '$' + pendiente.toLocaleString('es-AR');
     document.getElementById('gastos-list').innerHTML = !gF.length
       ? '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px">Sin gastos registrados</div>'
-      : gF.map(g=>`<div class="expense-item">
+      : gF.map(g => `<div class="expense-item">
           <div><div class="expense-desc">${g.desc}</div><div style="font-size:11px;color:var(--muted)">${formatFecha(g.fecha)}</div></div>
           <div style="display:flex;align-items:center;gap:8px">
             <span class="expense-amount">-$${g.monto.toLocaleString('es-AR')}</span>
@@ -682,50 +1133,48 @@
       <div class="profit-row"><span>Gastos</span><span class="val" style="color:var(--red)">-$${totalGastos.toLocaleString('es-AR')}</span></div>
       <div class="profit-total">
         <span class="label">💵 GANANCIA NETA</span>
-        <span class="val ${neta<0?'negative':''}">$${neta.toLocaleString('es-AR')}</span>
+        <span class="val ${neta < 0 ? 'negative' : ''}">$${neta.toLocaleString('es-AR')}</span>
       </div>
     </div>`;
   }
 
-  // Ruta (sin cambios)
   function renderRuta() {
     const hoyStr = hoy();
-    const vHoy = viajes.filter(v=>v.fecha===hoyStr);
+    const vHoy = viajes.filter(v => v.fecha === hoyStr);
     const counts = {};
-    vHoy.forEach(v=>{ counts[v.destino]=(counts[v.destino]||0)+1; });
+    vHoy.forEach(v => { counts[v.destino] = (counts[v.destino] || 0) + 1; });
     function renderStops(stops, cid) {
-      document.getElementById(cid).innerHTML = stops.map((s,i)=>{
-        const c=counts[s]||0;
-        const line = i<stops.length-1 ? `<div class="stop-line ${c>0?'has-delivery':''}"></div>` : '';
+      document.getElementById(cid).innerHTML = stops.map((s,i) => {
+        const c = counts[s] || 0;
+        const line = i < stops.length - 1 ? `<div class="stop-line ${c > 0 ? 'has-delivery' : ''}"></div>` : '';
         return `<div class="stop">
-          <div class="stop-dot ${i===0?'origin':''} ${c>0?'has-delivery':''}">${i===0?'⬤':(c>0?c:'○')}</div>
+          <div class="stop-dot ${i === 0 ? 'origin' : ''} ${c > 0 ? 'has-delivery' : ''}">${i === 0 ? '⬤' : (c > 0 ? c : '○')}</div>
           <div class="stop-name">${s}</div>
         </div>${line}`;
       }).join('');
     }
-    renderStops(rutaSalida,'route-salida');
-    renderStops(rutaRegreso,'route-regreso');
+    renderStops(rutaSalida,  'route-salida');
+    renderStops(rutaRegreso, 'route-regreso');
     const byLoc = {};
-    vHoy.forEach(v=>{ if(!byLoc[v.destino]) byLoc[v.destino]=[]; byLoc[v.destino].push(v); });
+    vHoy.forEach(v => { if (!byLoc[v.destino]) byLoc[v.destino] = []; byLoc[v.destino].push(v); });
     const keys = Object.keys(byLoc);
     document.getElementById('localidad-resumen').innerHTML = !keys.length
       ? '<div class="empty"><div class="empty-icon">📍</div>Sin envíos para hoy</div>'
-      : keys.map(loc=>`<div style="margin-bottom:10px">
+      : keys.map(loc => `<div style="margin-bottom:10px">
           <div style="font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">📍 ${loc} <span style="color:var(--muted)">(${byLoc[loc].length})</span></div>
-          ${byLoc[loc].map(v=>`<div style="font-size:13px;padding:6px 10px;background:var(--surface2);border-radius:6px;margin-bottom:4px;display:flex;justify-content:space-between">
-            <span>${v.cliente} — ${v.dirEntrega||'sin dir.'}</span>
-            <span style="color:${v.estado==='cobrado'?'var(--green)':'var(--accent)'};font-family:Space Mono,monospace;font-size:12px">$${v.precio.toLocaleString('es-AR')}</span>
+          ${byLoc[loc].map(v => `<div style="font-size:13px;padding:6px 10px;background:var(--surface2);border-radius:6px;margin-bottom:4px;display:flex;justify-content:space-between">
+            <span>${v.cliente} — ${v.dirEntrega || 'sin dir.'}</span>
+            <span style="color:${v.estado === 'cobrado' ? 'var(--green)' : 'var(--accent)'};font-family:Space Mono,monospace;font-size:12px">$${v.precio.toLocaleString('es-AR')}</span>
           </div>`).join('')}
         </div>`).join('');
   }
 
-  // Clientes (sin cambios)
   function renderClientes() {
-    const busqueda = (document.getElementById('clientes-search').value||'').toLowerCase();
+    const busqueda = (document.getElementById('clientes-search').value || '').toLowerCase();
     const mapa = {};
     viajes.forEach(v => {
       const key = v.cliente.trim().toLowerCase();
-      if (!mapa[key]) mapa[key] = { nombre: v.cliente.trim(), wa: v.wa||'', envios: [] };
+      if (!mapa[key]) mapa[key] = { nombre: v.cliente.trim(), wa: v.wa || '', envios: [] };
       if (v.wa && !mapa[key].wa) mapa[key].wa = v.wa;
       mapa[key].envios.push(v);
     });
@@ -738,17 +1187,17 @@
       return;
     }
     el.innerHTML = lista.map(c => {
-      const cobrado   = c.envios.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
-      const pendiente = c.envios.filter(v=>v.estado==='pendiente').reduce((s,v)=>s+v.precio,0);
-      const ultimo    = c.envios.sort((a,b)=>b.id-a.id)[0];
+      const cobrado   = c.envios.filter(v => v.estado === 'cobrado').reduce((s,v) => s + v.precio, 0);
+      const pendiente = c.envios.filter(v => v.estado === 'pendiente').reduce((s,v) => s + v.precio, 0);
+      const ultimo    = c.envios.sort((a,b) => b.id - a.id)[0];
       return `<div class="client-item" onclick="abrirCliente('${encodeURIComponent(c.nombre)}')">
         <div class="client-header">
           <div class="client-name">${c.nombre}</div>
-          <div class="client-count">${c.envios.length} envío${c.envios.length!==1?'s':''}</div>
+          <div class="client-count">${c.envios.length} envío${c.envios.length !== 1 ? 's' : ''}</div>
         </div>
         <div class="client-meta">
-          <span class="client-total">$${(cobrado+pendiente).toLocaleString('es-AR')} total</span>
-          ${pendiente>0?`<span style="color:var(--accent)">$${pendiente.toLocaleString('es-AR')} pendiente</span>`:''}
+          <span class="client-total">$${(cobrado + pendiente).toLocaleString('es-AR')} total</span>
+          ${pendiente > 0 ? `<span style="color:var(--accent)">$${pendiente.toLocaleString('es-AR')} pendiente</span>` : ''}
           <span>Último: ${formatFecha(ultimo.fecha)}</span>
         </div>
       </div>`;
@@ -756,22 +1205,20 @@
   }
 
   window.abrirCliente = nombre => {
-    const nombreDec = decodeURIComponent(nombre);
-    const enviosCliente = viajes.filter(v=>v.cliente.trim().toLowerCase()===nombreDec.trim().toLowerCase());
-    enviosCliente.sort((a,b)=>b.id-a.id);
-    const wa = enviosCliente.find(v=>v.wa)?.wa || '';
-    const cobrado   = enviosCliente.filter(v=>v.estado==='cobrado').reduce((s,v)=>s+v.precio,0);
-    const pendiente = enviosCliente.filter(v=>v.estado==='pendiente').reduce((s,v)=>s+v.precio,0);
-
-    document.getElementById('detalle-nombre').textContent = nombreDec;
+    const n = decodeURIComponent(nombre);
+    const envios = viajes.filter(v => v.cliente.trim().toLowerCase() === n.trim().toLowerCase());
+    envios.sort((a,b) => b.id - a.id);
+    const wa = envios.find(v => v.wa)?.wa || '';
+    const cobrado   = envios.filter(v => v.estado === 'cobrado').reduce((s,v) => s + v.precio, 0);
+    const pendiente = envios.filter(v => v.estado === 'pendiente').reduce((s,v) => s + v.precio, 0);
+    document.getElementById('detalle-nombre').textContent = n;
     document.getElementById('detalle-wa').innerHTML = wa
       ? `<a class="wa-btn" href="https://wa.me/${wa.replace(/\D/g,'')}" target="_blank" style="display:inline-flex;margin-top:4px">💬 ${wa}</a>`
       : '<span>Sin WhatsApp registrado</span>';
-    document.getElementById('detalle-total').textContent     = enviosCliente.length;
-    document.getElementById('detalle-cobrado').textContent   = '$'+cobrado.toLocaleString('es-AR');
-    document.getElementById('detalle-pendiente').textContent = '$'+pendiente.toLocaleString('es-AR');
-
-    document.getElementById('detalle-viajes').innerHTML = enviosCliente.map(v=>`
+    document.getElementById('detalle-total').textContent     = envios.length;
+    document.getElementById('detalle-cobrado').textContent   = '$' + cobrado.toLocaleString('es-AR');
+    document.getElementById('detalle-pendiente').textContent = '$' + pendiente.toLocaleString('es-AR');
+    document.getElementById('detalle-viajes').innerHTML = envios.map(v => `
       <div class="trip-item">
         <div class="trip-header">
           <div class="trip-route"><span>${v.origen}</span><span class="arrow">→</span><span>${v.destino}</span></div>
@@ -779,24 +1226,22 @@
         </div>
         <div class="trip-meta">
           <span>📅 ${formatFecha(v.fecha)}</span>
-          ${v.dirEntrega?`<span>🏠 ${v.dirEntrega}</span>`:''}
+          ${v.dirEntrega ? `<span>🏠 ${v.dirEntrega}</span>` : ''}
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          ${v.estado==='cobrado'?`<span class="badge badge-paid">✓ Cobrado</span>`:`<span class="badge badge-pending">⏳ Pendiente</span>`}
-          ${v.nota?`<span class="trip-note">📝 ${v.nota}</span>`:''}
+          ${v.estado === 'cobrado' ? `<span class="badge badge-paid">✓ Cobrado</span>` : `<span class="badge badge-pending">⏳ Pendiente</span>`}
+          ${v.nota ? `<span class="trip-note">📝 ${v.nota}</span>` : ''}
         </div>
       </div>`).join('');
-
-    document.getElementById('clientes-lista-view').style.display = 'none';
+    document.getElementById('clientes-lista-view').style.display  = 'none';
     document.getElementById('clientes-detalle-view').style.display = 'block';
   };
 
   window.volverClientes = () => {
-    document.getElementById('clientes-lista-view').style.display = 'block';
+    document.getElementById('clientes-lista-view').style.display  = 'block';
     document.getElementById('clientes-detalle-view').style.display = 'none';
   };
 
-  // Calculadora (sin cambios)
   function updateCalc() {
     const base   = parseFloat(document.getElementById('param-base').value)    || 6000;
     const baseKm = parseFloat(document.getElementById('param-km-base').value) || 30;
@@ -819,14 +1264,17 @@
   document.getElementById('km-slider').addEventListener('input', updateCalc);
   updateCalc();
 
-  // Borrar todo (sin cambios)
   window.confirmarBorrar = async () => {
-    if(!confirm('¿Borrar TODOS los datos? No se puede deshacer.')) return;
+    if (!confirm('¿Borrar TODOS los datos? No se puede deshacer.')) return;
     setSyncState('syncing');
-    const [vs,gs] = await Promise.all([getDocs(collection(db,'viajes')),getDocs(collection(db,'gastos'))]);
-    await Promise.all([...vs.docs.map(d=>deleteDoc(d.ref)),...gs.docs.map(d=>deleteDoc(d.ref))]);
+    const [vs, gs] = await Promise.all([getDocs(collection(db,'viajes')), getDocs(collection(db,'gastos'))]);
+    await Promise.all([...vs.docs.map(d => deleteDoc(d.ref)), ...gs.docs.map(d => deleteDoc(d.ref))]);
     alert('Datos eliminados.');
   };
+
+  // Inicializar combustible al cargar la página
+  initCombustible();
+
 </script>
 </body>
 </html>
