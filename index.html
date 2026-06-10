@@ -175,9 +175,7 @@
   .client-detail-name { font-size: 20px; font-weight: 800; color: var(--text); }
   .client-detail-wa { font-size: 13px; color: var(--muted); margin-top: 3px; }
 
-  /* ═══════════════════════════════════════════
-     COMBUSTIBLE
-  ═══════════════════════════════════════════ */
+  /* COMBUSTIBLE */
   .fuel-tipo-row { display: flex; gap: 8px; margin-bottom: 12px; }
   .fuel-tipo-btn { flex: 1; padding: 10px 6px; border-radius: 7px; font-size: 12px; font-weight: 700; border: 2px solid var(--border); background: var(--surface2); color: var(--muted); cursor: pointer; transition: all 0.15s; text-align: center; font-family: 'Manrope', sans-serif; line-height: 1.4; }
   .fuel-tipo-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(240,192,64,0.08); }
@@ -369,12 +367,9 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     COMBUSTIBLE
-═══════════════════════════════════════════ -->
+<!-- COMBUSTIBLE -->
 <div id="tab-combustible" class="section">
 
-  <!-- Configuración -->
   <div class="card">
     <div class="card-title">⚙️ Configuración del Vehículo</div>
     <div class="info-banner">
@@ -442,7 +437,6 @@
     </div>
   </div>
 
-  <!-- Calculadora por tramo -->
   <div class="card">
     <div class="card-title">🧮 Calculadora por Tramo</div>
     <div class="form-row" style="margin-bottom:8px">
@@ -486,7 +480,6 @@
     </div>
   </div>
 
-  <!-- Cálculo por jornada -->
   <div class="card">
     <div class="card-title">📅 Combustible de la Jornada</div>
     <div class="filter-row">
@@ -523,7 +516,6 @@
     </div>
   </div>
 
-  <!-- Tabla de distancias -->
   <div class="card">
     <div class="card-title">📍 Distancias de Referencia</div>
     <div class="info-banner" style="margin-bottom:10px">
@@ -634,14 +626,7 @@
   const rutaSalida  = ['Las Varillas','Alicia','El Fortín','Landeta','Piamonte','Los Cardos','Las Parejas'];
   const rutaRegreso = ['El Trébol','Carlos Pellegrini','San Jorge','Las Varillas'];
 
-  /* ═══════════════════════════════════════════════════
-     TABLA DE DISTANCIAS
-     tipo 'ruta'   → rendimiento interurbano (15–17)
-     tipo 'ciudad' → rendimiento urbano (11–13)
-  ═══════════════════════════════════════════════════ */
   const DISTANCIAS = {
-    // ── Distancias exactas confirmadas por el operador ──
-    // Desde Las Varillas (directos)
     'Las Varillas|Alicia':            { km: 28,  tipo: 'ruta' },
     'Las Varillas|El Fortín':         { km: 44,  tipo: 'ruta' },
     'Las Varillas|Landeta':           { km: 68,  tipo: 'ruta' },
@@ -651,17 +636,14 @@
     'Las Varillas|El Trébol':         { km: 120, tipo: 'ruta' },
     'Las Varillas|Carlos Pellegrini': { km: 95,  tipo: 'ruta' },
     'Las Varillas|San Jorge':         { km: 102, tipo: 'ruta' },
-    // Tramos consecutivos ruta de salida
     'Alicia|El Fortín':               { km: 17,  tipo: 'ruta' },
     'El Fortín|Landeta':              { km: 24,  tipo: 'ruta' },
     'Landeta|Piamonte':               { km: 27,  tipo: 'ruta' },
     'Piamonte|Los Cardos':            { km: 44,  tipo: 'ruta' },
     'Los Cardos|Las Parejas':         { km: 43,  tipo: 'ruta' },
-    // Tramos consecutivos ruta de regreso
     'Las Parejas|El Trébol':          { km: 60,  tipo: 'ruta' },
     'El Trébol|Carlos Pellegrini':    { km: 20,  tipo: 'ruta' },
     'Carlos Pellegrini|San Jorge':    { km: 22,  tipo: 'ruta' },
-    // Calculados por suma de tramos consecutivos
     'Alicia|Landeta':                 { km: 41,  tipo: 'ruta' },
     'Alicia|Piamonte':                { km: 68,  tipo: 'ruta' },
     'Alicia|Los Cardos':              { km: 112, tipo: 'ruta' },
@@ -680,9 +662,7 @@
     return DISTANCIAS[`${origen}|${destino}`] || DISTANCIAS[`${destino}|${origen}`] || null;
   }
 
-  /* ═══════════════════════════════════════════════════
-     CONFIG COMBUSTIBLE (guardada en localStorage)
-  ═══════════════════════════════════════════════════ */
+  /* CONFIG COMBUSTIBLE */
   function getConfig() {
     try {
       const s = localStorage.getItem('fuel_cfg');
@@ -729,7 +709,7 @@
     let rmin, rmax;
     if      (t === 'ruta')   { rmin = cfg.rendRutaMin;   rmax = cfg.rendRutaMax; }
     else if (t === 'ciudad') { rmin = cfg.rendCiudadMin; rmax = cfg.rendCiudadMax; }
-    else { // mixto: promedio
+    else {
       rmin = ((cfg.rendCiudadMin + cfg.rendRutaMin) / 2).toFixed(1);
       rmax = ((cfg.rendCiudadMax + cfg.rendRutaMax) / 2).toFixed(1);
     }
@@ -738,7 +718,6 @@
     document.getElementById('rend-rango').textContent = `${rmin}–${rmax} km/L`;
   };
 
-  // Devuelve { min, max, prom } según tipo de tramo y modo de conducción
   function getRend(tipoTramo) {
     const cfg = getConfig();
     const modo = cfg.tipoRecorrido;
@@ -748,16 +727,13 @@
     } else if (modo === 'ciudad') {
       rmin = cfg.rendCiudadMin; rmax = cfg.rendCiudadMax;
     } else {
-      // mixto: usar el rendimiento que corresponde al tipo del tramo
       if (tipoTramo === 'ruta') { rmin = cfg.rendRutaMin; rmax = cfg.rendRutaMax; }
       else                      { rmin = cfg.rendCiudadMin; rmax = cfg.rendCiudadMax; }
     }
     return { min: parseFloat(rmin), max: parseFloat(rmax), prom: (parseFloat(rmin) + parseFloat(rmax)) / 2 };
   }
 
-  /* ═══════════════════════════════════════════════════
-     CALCULADORA MANUAL
-  ═══════════════════════════════════════════════════ */
+  /* CALCULADORA MANUAL */
   window.calcularManual = () => {
     const origen  = document.getElementById('calc-origen').value;
     const destino = document.getElementById('calc-destino').value;
@@ -788,25 +764,23 @@
     const costo  = litros * cfg.precioLitro;
     const fmt    = n => '$' + Math.round(n).toLocaleString('es-AR');
 
-    document.getElementById('cm-km').textContent          = data.km + ' km';
-    document.getElementById('cm-tipo').textContent        = data.tipo === 'ruta' ? '🛣️ Ruta' : '🏙️ Ciudad';
-    document.getElementById('cm-rendimiento').textContent = r.prom.toFixed(1) + ' km/L';
-    document.getElementById('cm-litros').textContent      = litros.toFixed(2) + ' L';
+    document.getElementById('cm-km').textContent           = data.km + ' km';
+    document.getElementById('cm-tipo').textContent         = data.tipo === 'ruta' ? '🛣️ Ruta' : '🏙️ Ciudad';
+    document.getElementById('cm-rendimiento').textContent  = r.prom.toFixed(1) + ' km/L';
+    document.getElementById('cm-litros').textContent       = litros.toFixed(2) + ' L';
     document.getElementById('cm-precio-litro').textContent = fmt(cfg.precioLitro) + ' /L';
     document.getElementById('cm-costo-total').textContent  = fmt(costo);
 
     resEl.style.display = 'block'; emptyEl.style.display = 'none';
   };
 
-  /* ═══════════════════════════════════════════════════
-     CÁLCULO DE JORNADA
-  ═══════════════════════════════════════════════════ */
+  /* CÁLCULO DE JORNADA */
   window.calcularJornada = () => {
     const fecha = document.getElementById('jornada-fecha').value;
     if (!fecha) return;
-    const vF      = viajes.filter(v => v.fecha === fecha);
-    const sinEl   = document.getElementById('jornada-sin-viajes');
-    const conEl   = document.getElementById('jornada-con-viajes');
+    const vF    = viajes.filter(v => v.fecha === fecha);
+    const sinEl = document.getElementById('jornada-sin-viajes');
+    const conEl = document.getElementById('jornada-con-viajes');
 
     if (!vF.length) { sinEl.style.display = 'block'; conEl.style.display = 'none'; return; }
     sinEl.style.display = 'none'; conEl.style.display = 'block';
@@ -826,8 +800,8 @@
         </div>`;
       }
       const r    = getRend(data.tipo);
-      const lMin = data.km / r.max;   // con mejor rendimiento → menos litros
-      const lMax = data.km / r.min;   // con peor rendimiento  → más litros
+      const lMin = data.km / r.max;
+      const lMax = data.km / r.min;
       const lProm= data.km / r.prom;
       kmTotal += data.km; litMin += lMin; litMax += lMax;
       const badge = data.tipo === 'ruta'
@@ -845,7 +819,7 @@
       </div>`;
     }).join('');
 
-    document.getElementById('jornada-tramos').innerHTML = html;
+    document.getElementById('jornada-tramos').innerHTML   = html;
     document.getElementById('jornada-km-total').textContent   = kmTotal + ' km';
     document.getElementById('jornada-litros-min').textContent = litMin.toFixed(1) + ' L';
     document.getElementById('jornada-litros-max').textContent = litMax.toFixed(1) + ' L';
@@ -861,19 +835,14 @@
     calcularJornada();
   };
 
-  /* ═══════════════════════════════════════════════════
-     TABLA DE DISTANCIAS VISIBLE
-  ═══════════════════════════════════════════════════ */
+  /* TABLA DE DISTANCIAS */
   function renderTablaDistancias() {
     const pares = [
-      // Desde Las Varillas (directos)
       ['Las Varillas','Alicia'],['Las Varillas','El Fortín'],['Las Varillas','Landeta'],
       ['Las Varillas','Piamonte'],['Las Varillas','Los Cardos'],['Las Varillas','Las Parejas'],
       ['Las Varillas','El Trébol'],['Las Varillas','Carlos Pellegrini'],['Las Varillas','San Jorge'],
-      // Ruta de salida (tramos consecutivos)
       ['Alicia','El Fortín'],['El Fortín','Landeta'],['Landeta','Piamonte'],
       ['Piamonte','Los Cardos'],['Los Cardos','Las Parejas'],
-      // Ruta de regreso (tramos consecutivos)
       ['Las Parejas','El Trébol'],['El Trébol','Carlos Pellegrini'],['Carlos Pellegrini','San Jorge'],
     ];
     document.getElementById('tabla-distancias').innerHTML = pares.map(([a,b]) => {
@@ -892,9 +861,7 @@
     }).join('');
   }
 
-  /* ═══════════════════════════════════════════════════
-     INIT COMBUSTIBLE
-  ═══════════════════════════════════════════════════ */
+  /* INIT COMBUSTIBLE */
   function initCombustible() {
     const cfg = getConfig();
     document.getElementById('fuel-precio-litro').value     = cfg.precioLitro;
@@ -911,9 +878,7 @@
     renderTablaDistancias();
   }
 
-  /* ═══════════════════════════════════════════════════
-     FUNCIONES ORIGINALES SIN CAMBIOS
-  ═══════════════════════════════════════════════════ */
+  /* UTILIDADES */
   function hoy() { return new Date().toISOString().split('T')[0]; }
   function formatFecha(f) { const [y,m,d] = f.split('-'); return `${d}/${m}/${y}`; }
   function setSyncState(s) { document.getElementById('syncDot').className = 'sync-dot ' + s; }
@@ -1006,16 +971,27 @@
 
   function escJS(s) { return s.replace(/'/g, "\\'"); }
 
+  /* ═══════════════════════════════════════════════════
+     RENDER VIAJES — con sección de pendientes anteriores
+  ═══════════════════════════════════════════════════ */
   function renderViajes() {
     const filtro = document.getElementById('filtro-fecha').value;
-    let lista = filtro ? viajes.filter(v => v.fecha === filtro) : [...viajes];
-    lista.sort((a,b) => b.id - a.id);
+
+    // Envíos del filtro activo (o todos si no hay filtro)
+    let listaFiltro = filtro ? viajes.filter(v => v.fecha === filtro) : [...viajes];
+    listaFiltro.sort((a,b) => b.id - a.id);
+
+    // Envíos pendientes de días ANTERIORES al filtro activo
+    // Solo se muestran cuando hay un filtro de fecha puesto
+    const pendientesAnteriores = filtro
+      ? viajes.filter(v => v.fecha < filtro && v.estado === 'pendiente')
+          .sort((a,b) => b.id - a.id)
+      : [];
+
     const el = document.getElementById('viajes-list');
-    if (!lista.length) {
-      el.innerHTML = `<div class="empty"><div class="empty-icon">📦</div>${filtro ? 'Sin envíos en esta fecha.' : 'No hay envíos registrados.'}</div>`;
-      return;
-    }
-    el.innerHTML = lista.map(v => {
+
+    // Genera el HTML de una tarjeta de envío
+    function cardHTML(v) {
       const waRemitente = v.wa
         ? `<a class="wa-btn" href="https://wa.me/${v.wa.replace(/\D/g,'')}?text=Hola%20${encodeURIComponent(v.cliente)}%2C%20tu%20env%C3%ADo%20fue%20entregado%20✓" target="_blank">💬 Entregado</a>`
         : '';
@@ -1030,8 +1006,8 @@
         const m2  = `Hola ${nom} 👋, soy el repartidor. Estoy llegando a *${dir}* con tu pedido. ¡En unos minutos estoy ahí!`;
         seccionDest = `<div class="wa-dest-grupo">
           <span class="wa-dest-label">Destinatario:</span>
-          <button class="wa-btn-dest wa-btn-camino" onclick="abrirWA('${v.destWa}','${escJS(m1)}')">📦 En camino</button>
-          <button class="wa-btn-dest wa-btn-llego"  onclick="abrirWA('${v.destWa}','${escJS(m2)}')">🛵 Estoy llegando</button>
+          <button class="wa-btn-dest wa-btn-camino" onclick="abrirWA('${escJS(v.destWa)}','${escJS(m1)}')">📦 En camino</button>
+          <button class="wa-btn-dest wa-btn-llego"  onclick="abrirWA('${escJS(v.destWa)}','${escJS(m2)}')">🛵 Estoy llegando</button>
         </div>`;
       } else if (v.destNombre) {
         seccionDest = `<div class="wa-dest-grupo"><span class="wa-dest-label" style="color:var(--muted)">Sin WA del destinatario</span></div>`;
@@ -1063,7 +1039,54 @@
         </div>
         ${seccionDest}
       </div>`;
-    }).join('');
+    }
+
+    let html = '';
+
+    // Sección: pendientes de días anteriores (solo si hay filtro de fecha)
+    if (pendientesAnteriores.length > 0) {
+      html += `<div style="
+        background: rgba(240,192,64,0.06);
+        border: 1px solid rgba(240,192,64,0.25);
+        border-radius: var(--radius);
+        padding: 10px 12px;
+        margin-bottom: 14px;
+      ">
+        <div style="
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: var(--accent);
+          margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        ">⏳ Pendientes de días anteriores <span style="
+          background: var(--accent);
+          color: #0f1117;
+          font-size: 10px;
+          font-weight: 800;
+          padding: 1px 7px;
+          border-radius: 20px;
+        ">${pendientesAnteriores.length}</span></div>
+        ${pendientesAnteriores.map(cardHTML).join('')}
+      </div>`;
+    }
+
+    // Sección: envíos del día filtrado
+    if (!listaFiltro.length && !pendientesAnteriores.length) {
+      html = `<div class="empty"><div class="empty-icon">📦</div>${filtro ? 'Sin envíos en esta fecha.' : 'No hay envíos registrados.'}</div>`;
+    } else if (listaFiltro.length > 0) {
+      if (filtro) {
+        html += `<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:8px">📅 Envíos del día</div>`;
+      }
+      html += listaFiltro.map(cardHTML).join('');
+    } else if (filtro && !listaFiltro.length) {
+      html += `<div class="empty"><div class="empty-icon">📦</div>Sin envíos registrados para esta fecha.</div>`;
+    }
+
+    el.innerHTML = html;
   }
 
   window.marcarCobrado   = async id => { setSyncState('syncing'); await updateDoc(doc(db,'viajes',id), {estado:'cobrado'}); };
@@ -1108,7 +1131,7 @@
     const fecha = document.getElementById('resumen-fecha').value || hoy();
     setSyncState('syncing');
     await addDoc(collection(db,'gastos'), {id: Date.now(), fecha, desc, monto});
-    document.getElementById('g-desc').value = '';
+    document.getElementById('g-desc').value  = '';
     document.getElementById('g-monto').value = '';
   };
   window.eliminarGasto = async id => { setSyncState('syncing'); await deleteDoc(doc(db,'gastos',id)); };
@@ -1279,7 +1302,6 @@
     alert('Datos eliminados.');
   };
 
-  // Inicializar combustible al cargar la página
   initCombustible();
 
 </script>
